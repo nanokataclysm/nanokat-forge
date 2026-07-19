@@ -102,18 +102,36 @@ app.post("/api/plan", async (request, response) => {
       usage: result.usage ?? null,
     });
   } catch (error) {
-    console.error("Qwen request failed", {
-      name: error instanceof Error ? error.name : "UnknownError",
-      message: error instanceof Error ? error.message : "Unknown error",
-      status:
-        typeof error === "object" && error !== null && "status" in error
-          ? error.status
-          : undefined,
-    });
+    const record =
+      typeof error === "object" && error !== null ? error : {};
+
+    const nested =
+      typeof record.error === "object" && record.error !== null
+        ? record.error
+        : {};
+
+    const upstream = {
+      status: record.status ?? null,
+      code: record.code ?? nested.code ?? null,
+      type: record.type ?? nested.type ?? null,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unknown upstream error",
+      requestId:
+        record.request_id ??
+        record.requestId ??
+        null,
+    };
+
+    console.error("Qwen request failed", upstream);
 
     return response.status(502).json({
       ok: false,
       error: "Qwen request failed",
+      ...(process.env.DEBUG_ERRORS === "true"
+        ? { upstream }
+        : {}),
     });
   }
 });
