@@ -1,7 +1,8 @@
 import express from "express";
 import OpenAI from "openai";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { buildPreviewFromPlan } from "./lib/preview.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,223 +13,226 @@ const requiredEnvironment = [
   "DEMO_SHARED_SECRET",
 ];
 
-for (const name of requiredEnvironment) {
-  if (!process.env[name]) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-}
+/**
+ * Create the Express app.
+ * @param {{
+ *   demoSecret?: string,
+ *   model?: string,
+ *   qwen?: { chat: { completions: { create: Function } } },
+ *   publicDir?: string,
+ * }} [options]
+ */
+export function createApp(options = {}) {
+  const demoSecret =
+    options.demoSecret ?? process.env.DEMO_SHARED_SECRET;
+  const model =
+    options.model ?? process.env.QWEN_MODEL ?? "qwen-plus";
+  const publicDir =
+    options.publicDir ?? path.join(__dirname, "public");
 
-const model = process.env.QWEN_MODEL ?? "qwen3.7-plus";
-
-const qwen = new OpenAI({
-  apiKey: process.env.DASHSCOPE_API_KEY,
-  baseURL: process.env.DASHSCOPE_BASE_URL,
-});
-
-const app = express();
-
-app.disable("x-powered-by");
-app.use(express.json({ limit: "32kb" }));
-app.use(
-  express.static(path.join(__dirname, "public"), {
-    index: "index.html",
-    fallthrough: true,
-  }),
-);
-
-app.get("/health", (_request, response) => {
-  response.json({
-    ok: true,
-    service: "nanokat-forge-orchestrator",
-    provider: "Alibaba Cloud Model Studio",
-    model,
-  });
-});
-
-app.post("/api/plan", async (request, response) => {
-  const suppliedToken = request.get("x-nanokat-demo-token");
-
-  if (suppliedToken !== process.env.DEMO_SHARED_SECRET) {
-    return response.status(401).json({
-      ok: false,
-      error: "Unauthorized",
+  const qwen =
+    options.qwen ??
+    new OpenAI({
+      apiKey: process.env.DASHSCOPE_API_KEY,
+      baseURL: process.env.DASHSCOPE_BASE_URL,
     });
+
+  if (!demoSecret) {
+    throw new Error("Missing required environment variable: DEMO_SHARED_SECRET");
   }
 
-  const brief =
-    typeof request.body?.brief === "string"
-      ? request.body.brief.trim()
-      : "";
+  const app = express();
 
-  if (!brief || brief.length > 8_000) {
-    return response.status(400).json({
-      ok: false,
-      error: "brief must contain between 1 and 8,000 characters",
-    });
-  }
+  app.disable("x-powered-by");
+  app.use(express.json({ limit: "32kb" }));
+  app.use(
+    express.static(publicDir, {
+      index: "index.html",
+      fallthrough: true,
+    }),
+  );
 
-  const systemPrompt = [
-    "You are the planning orchestrator for NANOKAT Forge.",
-    "Turn a small-business website request into a safe build plan.",
-    "Return only one valid JSON object with no Markdown fences.",
-    "Include these properties:",
-    "businessSummary, archetype, pages, palette, motif,",
-    "approvalCheckpoints, validationSteps, and risks.",
-    "Do not claim that files were created or anything was deployed.",
-  ].join(" ");
-
-  try {
-    const result = await qwen.chat.completions.create({
+  app.get("/health", (_request, response) => {
+    response.json({
+      ok: true,
+      service: "nanokat-forge-orchestrator",
+      provider: "Alibaba Cloud Model Studio",
       model,
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: brief,
-        },
-      ],
     });
+  });
 
-    const content = result.choices[0]?.message?.content;
+  app.post("/api/plan", async (request, response) => {
+    const suppliedToken = request.get("x-nanokat-demo-token");
 
-    if (!content) {
-      throw new Error("Qwen returned no message content");
+    if (suppliedToken !== demoSecret) {
+      return response.status(401).json({
+        ok: false,
+        error: "Unauthorized",
+      });
     }
 
-    const normalized = content
-      .trim()
-      .replace(/^```(?:json)?\s*/i, "")
-      .replace(/\s*```$/, "");
+    const brief =
+      typeof request.body?.brief === "string"
+        ? request.body.brief.trim()
+        : "";
 
-    const plan = JSON.parse(normalized);
+    if (!brief || brief.length > 8_000) {
+      return response.status(400).json({
+        ok: false,
+        error: "brief must contain between 1 and 8,000 characters",
+      });
+    }
+
+    const systemPrompt = [
+      "You are the planning orchestrator for NANOKAT Forge.",
+      "Turn a small-business website request into a safe build plan.",
+      "Return only one valid JSON object with no Markdown fences.",
+      "Include these properties:",
+      "businessName, businessSummary, archetype, pages, palette, motif,",
+      "approvalCheckpoints, validationSteps, and risks.",
+      "pages must be an array of 3 to 6 short page names.",
+      "palette must be an array of exactly 3 hex color strings,",
+      "for example [\"#8B5C3E\",\"#F9F5F0\",\"#3A2E26\"].",
+      "Do not claim that files were created or anything was deployed.",
+    ].join(" ");
+
+    try {
+      const result = await qwen.chat.completions.create({
+        model,
+        temperature: 0.2,
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: brief,
+          },
+        ],
+      });
+
+      const content = result.choices[0]?.message?.content;
+
+      if (!content) {
+        throw new Error("Qwen returned no message content");
+      }
+
+      const normalized = content
+        .trim()
+        .replace(/^```(?:json)?\s*/i, "")
+        .replace(/\s*```$/, "");
+
+      const plan = JSON.parse(normalized);
+
+      return response.json({
+        ok: true,
+        model,
+        plan,
+        usage: result.usage ?? null,
+      });
+    } catch (error) {
+      const record =
+        typeof error === "object" && error !== null ? error : {};
+
+      const nested =
+        typeof record.error === "object" && record.error !== null
+          ? record.error
+          : {};
+
+      const upstream = {
+        status: record.status ?? null,
+        code: record.code ?? nested.code ?? null,
+        type: record.type ?? nested.type ?? null,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Unknown upstream error",
+        requestId:
+          record.request_id ??
+          record.requestId ??
+          null,
+      };
+
+      console.error("Qwen request failed", upstream);
+
+      return response.status(502).json({
+        ok: false,
+        error: "Qwen request failed",
+        ...(process.env.DEBUG_ERRORS === "true"
+          ? { upstream }
+          : {}),
+      });
+    }
+  });
+
+  app.post("/api/build-preview", (request, response) => {
+    const suppliedToken = request.get("x-nanokat-demo-token");
+
+    if (suppliedToken !== demoSecret) {
+      return response.status(401).json({
+        ok: false,
+        error: "Unauthorized",
+      });
+    }
+
+    const approved = request.body?.approved === true;
+    const plan = request.body?.plan;
+
+    if (!approved) {
+      return response.status(409).json({
+        ok: false,
+        error: "Human approval is required before preview generation",
+      });
+    }
+
+    const result = buildPreviewFromPlan(plan);
+
+    if (!result.ok) {
+      const { status, error, validation } = result;
+      return response.status(status).json({
+        ok: false,
+        error,
+        ...(validation ? { validation } : {}),
+      });
+    }
 
     return response.json({
       ok: true,
-      model,
-      plan,
-      usage: result.usage ?? null,
+      trace: result.trace,
+      validation: result.validation,
+      preview: result.preview,
     });
-  } catch (error) {
-    const record =
-      typeof error === "object" && error !== null ? error : {};
-
-    const nested =
-      typeof record.error === "object" && record.error !== null
-        ? record.error
-        : {};
-
-    const upstream = {
-      status: record.status ?? null,
-      code: record.code ?? nested.code ?? null,
-      type: record.type ?? nested.type ?? null,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Unknown upstream error",
-      requestId:
-        record.request_id ??
-        record.requestId ??
-        null,
-    };
-
-    console.error("Qwen request failed", upstream);
-
-    return response.status(502).json({
-      ok: false,
-      error: "Qwen request failed",
-      ...(process.env.DEBUG_ERRORS === "true"
-        ? { upstream }
-        : {}),
-    });
-  }
-});
-
-
-app.post("/api/build-preview", (request, response) => {
-  const suppliedToken = request.get("x-nanokat-demo-token");
-
-  if (suppliedToken !== process.env.DEMO_SHARED_SECRET) {
-    return response.status(401).json({
-      ok: false,
-      error: "Unauthorized",
-    });
-  }
-
-  const approved = request.body?.approved === true;
-  const plan = request.body?.plan;
-
-  if (!approved) {
-    return response.status(409).json({
-      ok: false,
-      error: "Human approval is required before preview generation",
-    });
-  }
-
-  if (!plan || typeof plan !== "object" || Array.isArray(plan)) {
-    return response.status(400).json({
-      ok: false,
-      error: "A valid approved plan is required",
-    });
-  }
-
-  const pages = Array.isArray(plan.pages)
-    ? plan.pages.slice(0, 6)
-    : ["Home", "Work", "About", "Contact"];
-
-  const palette = Array.isArray(plan.palette)
-    ? plan.palette.slice(0, 3)
-    : ["#9b4a35", "#f2eadf", "#202020"];
-
-  const validation = {
-    approved: true,
-    isolatedPreview: true,
-    pageCountValid: pages.length > 0 && pages.length <= 6,
-    paletteCountValid: palette.length > 0 && palette.length <= 3,
-    productionMutation: false,
-    secretsAccessed: false,
-  };
-
-  if (!validation.pageCountValid || !validation.paletteCountValid) {
-    return response.status(422).json({
-      ok: false,
-      error: "The approved plan failed preview validation",
-      validation,
-    });
-  }
-
-  return response.json({
-    ok: true,
-    trace: [
-      "Business brief received",
-      "Qwen generated a structured website plan",
-      "Human approval recorded",
-      "Scoped preview builder invoked",
-      "Plan constraints validated",
-      "Isolated preview rendered",
-      "No production resources changed",
-    ],
-    validation,
-    preview: {
-      name: plan.businessName ?? "Moonlit Kiln",
-      summary: plan.businessSummary ?? "An independent creative business.",
-      archetype: plan.archetype ?? "Craft / artisan",
-      motif: plan.motif ?? "Handmade studio",
-      pages,
-      palette,
-    },
   });
-});
 
-const port = Number(
-  process.env.FC_CUSTOM_LISTEN_PORT ??
-    process.env.PORT ??
-    9000,
-);
+  return app;
+}
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`NANOKAT Forge listening on ${port}`);
-});
+function assertRequiredEnvironment() {
+  for (const name of requiredEnvironment) {
+    if (!process.env[name]) {
+      throw new Error(`Missing required environment variable: ${name}`);
+    }
+  }
+}
+
+function isMainModule() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  return import.meta.url === pathToFileURL(path.resolve(entry)).href;
+}
+
+if (isMainModule()) {
+  assertRequiredEnvironment();
+
+  const app = createApp();
+  const port = Number(
+    process.env.FC_CUSTOM_LISTEN_PORT ??
+      process.env.PORT ??
+      9000,
+  );
+
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`NANOKAT Forge listening on ${port}`);
+  });
+}
