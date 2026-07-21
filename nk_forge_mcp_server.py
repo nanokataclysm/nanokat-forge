@@ -355,7 +355,10 @@ def log_task(
 
 def main() -> None:
     init_db()
-    mcp.run()
+    try:
+        mcp.run()
+    finally:
+        qdrant.close()
 
 
 if __name__ == "__main__":
