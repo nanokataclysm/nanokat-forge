@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NANOKAT Forge</title>
+  <meta
+    name="description"
+    content="A human-gated Qwen agent that plans and previews websites for small businesses."
+  >
+  <link rel="stylesheet" href="./styles.css?v=2">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">NANOKAT Forge</p>
+        <h1>From a messy business idea to an approved website preview.</h1>
+        <p class="lede">
+          Qwen creates the plan. You approve the consequential action.
+          A scoped builder validates and renders the preview.
+        </p>
+      </div>
+      <div class="status">
+        <span class="status-dot"></span>
+        Alibaba Function Compute · Qwen
+      </div>
+    </header>
+
+    <section class="panel" id="intake-panel">
+      <div class="step-heading">
+        <span class="step-number">1</span>
+        <div>
+          <h2>Describe the business</h2>
+          <p>Loose notes are fine. The agent will structure them.</p>
+        </div>
+      </div>
+
+      <label for="access-code">Demo access code</label>
+      <input
+        id="access-code"
+        type="password"
+        autocomplete="off"
+        placeholder="Enter the private demo code"
+      >
+
+      <label for="brief">Business brief</label>
+      <textarea id="brief" rows="8">Moonlit Kiln is an Austin pottery studio selling handmade mugs and offering weekend classes. The owner likes clay red, cream, and midnight blue. The site should feel handcrafted, calm, and easy to navigate.</textarea>
+
+      <button id="plan-button" type="button">Ask Qwen to create the plan</button>
+      <p class="message" id="plan-message" aria-live="polite"></p>
+    </section>
+
+    <section class="panel hidden" id="approval-panel">
+      <div class="step-heading">
+        <span class="step-number">2</span>
+        <div>
+          <h2>Review the proposed action</h2>
+          <p>Nothing is built until you approve this plan.</p>
+        </div>
+      </div>
+
+      <div id="plan-summary"></div>
+
+      <div class="approval-callout">
+        <strong>Approval boundary</strong>
+        <p>
+          This action creates an isolated preview only. It does not deploy a
+          client site, change DNS, access secrets, or modify another repository.
+        </p>
+      </div>
+
+      <div class="actions">
+        <button id="approve-button" type="button">Approve and build preview</button>
+        <button id="revise-button" class="secondary" type="button">Revise brief</button>
+      </div>
+      <p class="message" id="build-message" aria-live="polite"></p>
+    </section>
+
+    <section class="panel hidden" id="result-panel">
+      <div class="step-heading">
+        <span class="step-number">3</span>
+        <div>
+          <h2>Validated preview</h2>
+          <p>The scoped build completed after explicit approval.</p>
+        </div>
+      </div>
+
+      <div class="trace" id="execution-trace"></div>
+      <div class="preview-frame" id="preview-frame"></div>
+
+      <button id="restart-button" class="secondary" type="button">
+        Start another brief
+      </button>
+    </section>
+  </main>
+
+  <script src="./app.js?v=2" defer></script>
+</body>
+</html>
