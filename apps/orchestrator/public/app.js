@@ -30,25 +30,40 @@ function text(value, fallback = "Not specified") {
 }
 
 function list(value) {
-  if (!Array.isArray(value)) {
-    return [text(value)];
+  if (Array.isArray(value)) {
+    return value.map((item) => {
+      if (typeof item === "string") return item;
+      if (item && typeof item === "object") {
+        return (
+          item.name ??
+          item.title ??
+          item.label ??
+          item.hex ??
+          item.value ??
+          item.color ??
+          JSON.stringify(item)
+        );
+      }
+      return String(item);
+    });
   }
 
-  return value.map((item) => {
-    if (typeof item === "string") return item;
-    if (item && typeof item === "object") {
-      return (
-        item.name ??
-        item.title ??
-        item.label ??
-        item.hex ??
-        item.value ??
-        item.color ??
-        JSON.stringify(item)
-      );
+  // Qwen often returns palettes as { primary, secondary, accent, ... }
+  if (value && typeof value === "object") {
+    const preferred = ["primary", "secondary", "accent", "background", "text"];
+    const colors = [];
+    for (const key of preferred) {
+      if (typeof value[key] === "string" && value[key].trim()) {
+        colors.push(value[key].trim());
+      }
     }
-    return String(item);
-  });
+    if (colors.length > 0) return colors.slice(0, 5);
+    return Object.values(value)
+      .filter((item) => typeof item === "string" && item.trim())
+      .slice(0, 5);
+  }
+
+  return [text(value)];
 }
 
 function escapeHtml(value) {
