@@ -1,0 +1,1 @@
+G P T five point six helped with architecture and safety. Codex implements in-repo when available. Grok handled host deploy and verification. Qwen powers the live inference path.

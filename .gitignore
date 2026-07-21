@@ -49,3 +49,6 @@ directories-hope.md
 
 # Operator local WIP (not part of ship tree)
 local-scratch/
+
+.venv-tts/
+evidence/video/slides/

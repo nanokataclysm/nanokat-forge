@@ -1,0 +1,1 @@
+It is running on Google Cloud Run. The health check shows Alibaba Model Studio as the provider, and Qwen as the live model — not an offline stub.

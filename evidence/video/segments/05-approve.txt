@@ -1,0 +1,1 @@
+Consequential work waits for a human. I approve only when the plan is acceptable. Without approval, the preview endpoint refuses.

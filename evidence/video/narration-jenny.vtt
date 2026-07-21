@@ -1,0 +1,80 @@
+1
+00:00:00,100 --> 00:00:06,829
+This is NANOKAT Forge — a human-gated website planning demo built during OpenAI Build Week.
+
+2
+00:00:06,779 --> 00:00:09,714
+It is running on Google Cloud Run.
+
+3
+00:00:09,714 --> 00:00:17,404
+The health check shows Alibaba Model Studio as the provider, and Qwen as the live model — not an offline stub.
+
+4
+00:00:17,404 --> 00:00:20,543
+I give it a messy small-business brief.
+
+5
+00:00:20,543 --> 00:00:22,785
+Loose notes are fine.
+
+6
+00:00:22,785 --> 00:00:25,271
+The system structures them.
+
+7
+00:00:25,271 --> 00:00:33,152
+Qwen returns a structured plan: business summary, pages, palette, validation steps, and risks.
+
+8
+00:00:33,152 --> 00:00:35,597
+Nothing is deployed yet.
+
+9
+00:00:35,597 --> 00:00:38,641
+Consequential work waits for a human.
+
+10
+00:00:38,641 --> 00:00:41,942
+I approve only when the plan is acceptable.
+
+11
+00:00:41,942 --> 00:00:45,910
+Without approval, the preview endpoint refuses.
+
+12
+00:00:45,910 --> 00:00:53,016
+After approval, a scoped builder validates constraints and renders an isolated H T M L preview.
+
+13
+00:00:53,016 --> 00:00:58,288
+No production D N S, no secret access, no site push.
+
+14
+00:00:58,288 --> 00:01:02,907
+G P T five point six helped with architecture and safety.
+
+15
+00:01:02,907 --> 00:01:06,222
+Codex implements in-repo when available.
+
+16
+00:01:06,222 --> 00:01:09,782
+Grok handled host deploy and verification.
+
+17
+00:01:09,782 --> 00:01:12,907
+Qwen powers the live inference path.
+
+18
+00:01:12,907 --> 00:01:21,535
+We are not claiming multi-agent Mission Society or cryptographic package signing as shipped today — those are the next vertical slice.
+
+19
+00:01:21,535 --> 00:01:27,146
+What you see is the working kernel: plan, approve, preview, prove.
+
+20
+00:01:27,146 --> 00:01:34,714
+NANOKAT Forge: create something useful, know how it was made, and keep a human on the consequential step.
+
