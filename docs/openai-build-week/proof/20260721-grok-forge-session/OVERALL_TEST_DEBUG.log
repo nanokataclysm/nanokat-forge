@@ -1,0 +1,226 @@
+=== npm test ===
+
+> orchestrator@1.0.0 test
+> node --test test/preview.test.mjs test/server.test.mjs
+
+TAP version 13
+# Subtest: extractColor
+    # Subtest: returns trimmed strings
+    ok 1 - returns trimmed strings
+      ---
+      duration_ms: 1.619527
+      type: 'test'
+      ...
+    # Subtest: reads hex/value/color from objects
+    ok 2 - reads hex/value/color from objects
+      ---
+      duration_ms: 0.3105
+      type: 'test'
+      ...
+    # Subtest: returns null for empty or non-color values
+    ok 3 - returns null for empty or non-color values
+      ---
+      duration_ms: 0.184413
+      type: 'test'
+      ...
+    1..3
+ok 1 - extractColor
+  ---
+  duration_ms: 4.165196
+  type: 'suite'
+  ...
+# Subtest: normalizePages
+    # Subtest: falls back when missing
+    ok 1 - falls back when missing
+      ---
+      duration_ms: 1.908427
+      type: 'test'
+      ...
+    # Subtest: caps at 6 and unwraps page objects
+    ok 2 - caps at 6 and unwraps page objects
+      ---
+      duration_ms: 0.236378
+      type: 'test'
+      ...
+    1..2
+ok 2 - normalizePages
+  ---
+  duration_ms: 2.455835
+  type: 'suite'
+  ...
+# Subtest: normalizePalette
+    # Subtest: uses array hex values
+    ok 1 - uses array hex values
+      ---
+      duration_ms: 0.585998
+      type: 'test'
+      ...
+    # Subtest: extracts ordered keys from Qwen-style object palettes
+    ok 2 - extracts ordered keys from Qwen-style object palettes
+      ---
+      duration_ms: 0.480767
+      type: 'test'
+      ...
+    # Subtest: falls back when palette is unusable
+    ok 3 - falls back when palette is unusable
+      ---
+      duration_ms: 0.356285
+      type: 'test'
+      ...
+    1..3
+ok 3 - normalizePalette
+  ---
+  duration_ms: 1.733905
+  type: 'suite'
+  ...
+# Subtest: buildPreviewFromPlan
+    # Subtest: rejects non-object plans
+    ok 1 - rejects non-object plans
+      ---
+      duration_ms: 0.513304
+      type: 'test'
+      ...
+    # Subtest: builds preview with object palette hex values
+    ok 2 - builds preview with object palette hex values
+      ---
+      duration_ms: 0.534418
+      type: 'test'
+      ...
+    1..2
+ok 4 - buildPreviewFromPlan
+  ---
+  duration_ms: 1.21523
+  type: 'suite'
+  ...
+# Subtest: GET /health
+    # Subtest: returns ok without auth
+    ok 1 - returns ok without auth
+      ---
+      duration_ms: 85.633345
+      type: 'test'
+      ...
+    1..1
+ok 5 - GET /health
+  ---
+  duration_ms: 96.082448
+  type: 'suite'
+  ...
+# Subtest: POST /api/plan auth and validation
+    # Subtest: rejects missing token
+    ok 1 - rejects missing token
+      ---
+      duration_ms: 24.015275
+      type: 'test'
+      ...
+    # Subtest: rejects wrong token
+    ok 2 - rejects wrong token
+      ---
+      duration_ms: 9.377339
+      type: 'test'
+      ...
+    # Subtest: returns 400 on empty brief
+    ok 3 - returns 400 on empty brief
+      ---
+      duration_ms: 7.622833
+      type: 'test'
+      ...
+    # Subtest: returns 400 on oversized brief
+    ok 4 - returns 400 on oversized brief
+      ---
+      duration_ms: 6.409815
+      type: 'test'
+      ...
+    # Subtest: returns a plan via mocked Qwen without live network
+    ok 5 - returns a plan via mocked Qwen without live network
+      ---
+      duration_ms: 7.043671
+      type: 'test'
+      ...
+    1..5
+ok 6 - POST /api/plan auth and validation
+  ---
+  duration_ms: 55.563926
+  type: 'suite'
+  ...
+# Subtest: POST /api/build-preview
+    # Subtest: rejects missing token
+    ok 1 - rejects missing token
+      ---
+      duration_ms: 7.537625
+      type: 'test'
+      ...
+    # Subtest: requires approved=true
+    ok 2 - requires approved=true
+      ---
+      duration_ms: 5.892418
+      type: 'test'
+      ...
+    # Subtest: validates plan shape
+    ok 3 - validates plan shape
+      ---
+      duration_ms: 16.324249
+      type: 'test'
+      ...
+    # Subtest: builds preview for array palette
+    ok 4 - builds preview for array palette
+      ---
+      duration_ms: 7.965714
+      type: 'test'
+      ...
+    # Subtest: uses hex values when palette is a Qwen-style object
+    ok 5 - uses hex values when palette is a Qwen-style object
+      ---
+      duration_ms: 4.152656
+      type: 'test'
+      ...
+    1..5
+ok 7 - POST /api/build-preview
+  ---
+  duration_ms: 43.43904
+  type: 'suite'
+  ...
+1..7
+# tests 21
+# suites 7
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 642.57942
+
+=== npm run smoke ===
+
+> orchestrator@1.0.0 smoke
+> node scripts/smoke-cli.mjs
+
+base: https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+health: {
+  ok: true,
+  service: 'nanokat-forge-orchestrator',
+  provider: 'Alibaba Cloud Model Studio',
+  model: 'qwen-plus'
+}
+plan status: 200 ok: true model: qwen-plus
+preview status: 200 ok: true palette: [ '#8B5C3E', '#F9F5F0', '#3A2E26' ]
+deny status (expect 409): 409
+unauth status (expect 401): 401
+SMOKE_OK
+
+=== curl health ===
+{"ok":true,"service":"nanokat-forge-orchestrator","provider":"Alibaba Cloud Model Studio","model":"qwen-plus"}
+=== curl homepage badge ===
+6:  <title>NANOKAT Forge</title>
+17:        <p class="eyebrow">NANOKAT Forge</p>
+26:        Google Cloud Run · Qwen
+
+=== palette object preview regression ===
+{
+  "ok": true,
+  "palette": [
+    "#112233",
+    "#445566",
+    "#778899"
+  ]
+}
+PALETTE_REGRESSION_OK

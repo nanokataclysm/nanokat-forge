@@ -1,0 +1,21 @@
+{
+  "info": {
+    "id": "019f86d1-ccb3-7331-a41c-c526b159e162",
+    "cwd": "/home/nanokat"
+  },
+  "session_summary": "Skill Audit Command Session",
+  "created_at": "2026-07-21T22:35:24.239106725Z",
+  "updated_at": "2026-07-21T23:21:03.421345716Z",
+  "num_messages": 690,
+  "num_chat_messages": 241,
+  "current_model_id": "grok-4.5",
+  "next_trace_turn": 17,
+  "chat_format_version": 1,
+  "request_id": "18ea5fbb-6ff6-43a9-ad02-d5e95fe4c4c7",
+  "grok_home": "/home/nanokat/.grok",
+  "last_active_at": "2026-07-21T23:21:03.421345716Z",
+  "generated_title": "Skill Audit Command Session",
+  "agent_name": "grok-build-plan",
+  "sandbox_profile": "off",
+  "reasoning_effort": "high"
+}
