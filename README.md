@@ -39,10 +39,19 @@ npm test
 npm run smoke   # hits FORGE_URL or the live Cloud Run URL
 ```
 
-## Submission
+## Host (agents)
 
-Operator-facing sheet: [`docs/SUBMISSION.md`](docs/SUBMISSION.md)  
-Signing / receipt handoff for Sylvia: [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md)
+Operator machine is a **physical MacBook Pro running Ubuntu 26.04 LTS** — not macOS.  
+See [`AGENTS.md`](AGENTS.md).
+
+## Submission & evidence
+
+| Doc | Role |
+|-----|------|
+| [`evidence/`](evidence/) | **Canonical proof root** — screenshots, exports, logs, video storyboard |
+| [`evidence/VIDEO_STORYBOARD.md`](evidence/VIDEO_STORYBOARD.md) | Shot list + spoken script (≤3 min) |
+| [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | Submission sheet |
+| [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md) | Signing / receipt handoff (Sylvia) |
 
 ## Not claimed (yet)
 

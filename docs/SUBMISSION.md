@@ -71,7 +71,9 @@ cd apps/orchestrator && npm test
 
 ## Evidence pointers
 
-- This file + root `README.md`
+- **Canonical pack:** [`evidence/`](../evidence/) (screenshots, exports, logs, storyboard)
+- Video script: [`evidence/VIDEO_STORYBOARD.md`](../evidence/VIDEO_STORYBOARD.md)
+- This file + root `README.md` + `AGENTS.md` (Ubuntu MBP host truth)
 - `docs/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md`
 - `docs/handoffs/sylvia-signing.md` (signing next)
 - Git history on `feat/mission-society-runtime` and `main`
