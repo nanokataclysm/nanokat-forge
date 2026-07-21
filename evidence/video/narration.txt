@@ -1,0 +1,17 @@
+This is NANOKAT Forge — a human-gated website planning demo built during OpenAI Build Week.
+
+It is running on Google Cloud Run. The health check shows Alibaba Model Studio as the provider, and Qwen as the live model — not an offline stub.
+
+I give it a messy small-business brief. Loose notes are fine. The system structures them.
+
+Qwen returns a structured plan: business summary, pages, palette, validation steps, and risks. Nothing is deployed yet.
+
+Consequential work waits for a human. I approve only when the plan is acceptable. Without approval, the preview endpoint refuses.
+
+After approval, a scoped builder validates constraints and renders an isolated H T M L preview. No production D N S, no secret access, no site push.
+
+G P T five point six helped with architecture and safety. Codex implements in-repo when available. Grok handled host deploy and verification. Qwen powers the live inference path.
+
+We are not claiming multi-agent Mission Society or cryptographic package signing as shipped today — those are the next vertical slice. What you see is the working kernel: plan, approve, preview, prove.
+
+NANOKAT Forge: create something useful, know how it was made, and keep a human on the consequential step.
