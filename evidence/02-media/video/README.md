@@ -16,8 +16,8 @@ Soft female narration via **Microsoft Edge TTS** voice **`en-US-JennyNeural`**
 ```bash
 cd /home/nanokat/hack/nk-forge
 .venv-tts/bin/edge-tts --voice en-US-JennyNeural --rate=-8% --pitch=-2Hz \
-  --file evidence/video/narration.txt \
-  --write-media evidence/video/narration-jenny.mp3
+  --file evidence/02-media/video/narration.txt \
+  --write-media evidence/02-media/video/narration-jenny.mp3
 ```
 
 ## Submission tip

@@ -257,10 +257,9 @@ The Repair Agent receives only the approved plan, failed output, and failed chec
 
 Recommended public-safe artifacts:
 
-- `docs/openai-build-week/GPT56_CONTRIBUTION.md`
-- `docs/openai-build-week/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md`
-- `docs/handoffs/CODEX_MISSION_SOCIETY_RUNTIME.md`
-- `QWEN_NANOKAT_MISSION_SOCIETY_MASTER_HANDOFF.md`
+- `evidence/01-submission-text/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md`
+- `docs/handoffs/sylvia-signing.md`
+- `docs/QWEN_NANOKAT_MISSION_SOCIETY_MASTER_HANDOFF.md`
 - relevant public-safe security and routing documents
 - dated Git history
 - exact test results
@@ -334,8 +333,8 @@ Do not claim:
 Status refreshed **2026-07-21** against live Cloud Run + repo evidence.
 
 - [ ] Public repository available (push `feat/mission-society-runtime` / open GitHub if still private)
-- [x] README explains GPT-5.6, Codex, and Qwen responsibilities (see root `README.md` + `docs/SUBMISSION.md`)
-- [ ] Codex session ID included (paste from Codex UI into submission form)
+- [x] README explains GPT-5.6, Codex, and Qwen responsibilities
+- [x] Primary Codex session ID included (`019f6508-e856-7e80-bdc0-d132525a1a16`)
 - [x] Git timestamps preserved (do not rewrite history for the contest)
 - [ ] GPT-5.6 evidence screenshots captured (operator action)
 - [x] Secrets absent from Git and screenshots (private keys gitignored; no keys in README)
@@ -348,7 +347,7 @@ Status refreshed **2026-07-21** against live Cloud Run + repo evidence.
 - [x] Project start date is accurate (July 19, 2026 per dossier header)
 - [ ] Submission completed before the deadline
 
-See also: `docs/SUBMISSION.md`, `docs/handoffs/sylvia-signing.md` (signing next).
+See also: `evidence/01-submission-text/SUBMISSION.md`, `docs/handoffs/sylvia-signing.md` (signing next).
 
 ## One-paragraph evidence statement
 

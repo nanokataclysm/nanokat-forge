@@ -138,7 +138,7 @@ Most “AI website builders” jump straight to generation. Forge forces a struc
 5. Click Approve — view isolated preview and execution trace.
 6. Optional: reject path — without approve, preview is blocked.
 
-Alternative proof without the token: open /health for live service + model, and see unit tests / smoke log under evidence/logs/ in the repo.
+Alternative proof without the token: open `/health` for the live service and model, then review the test and smoke log under `evidence/03-proof/exports/20260721-grok-session/`.
 ```
 
 ## Video description (YouTube / form caption)
@@ -156,14 +156,17 @@ NANOKAT Forge was created during OpenAI Build Week through a combined workflow i
 ## Codex session ID
 
 ```
-[PASTE FROM CODEX UI — not available in this export]
+019f6508-e856-7e80-bdc0-d132525a1a16
 ```
+
+Supporting Forge troubleshooting session: `019f7be3-39e0-7541-afc5-45074f72fb7f`.
 
 ## ChatGPT / GPT project evidence
 
 ```
-Screenshots and dossier: evidence/screenshots/ and docs/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md
-Grok session export: evidence/exports/20260721-grok-session/
+Screenshots: evidence/archive/images/product-screenshots/
+Evidence dossier: evidence/01-submission-text/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md
+Grok session export: evidence/03-proof/exports/20260721-grok-session/
 ```
 
 ## Built with / powered by (checkbox-style text)
@@ -188,21 +191,21 @@ Copy these into your upload folder (or zip as below).
 
 | File | Local path |
 |------|------------|
-| Demo video | `/home/nanokat/hack/nk-forge/evidence/video/nanokat-forge-build-week-demo.mp4` |
-| Voice-only backup | `/home/nanokat/hack/nk-forge/evidence/video/narration-jenny.mp3` |
-| Storyboard (optional PDF/text) | `/home/nanokat/hack/nk-forge/evidence/VIDEO_STORYBOARD.md` |
-| This paste sheet | `/home/nanokat/hack/nk-forge/evidence/SUBMISSION_FORM_PASTE.md` |
+| Demo video | `/home/nanokat/hack/nk-forge/evidence/02-media/video/nanokat-forge-build-week-demo.mp4` |
+| Voice-only backup | `/home/nanokat/hack/nk-forge/evidence/02-media/video/narration-jenny.mp3` |
+| Storyboard (optional PDF/text) | `/home/nanokat/hack/nk-forge/evidence/01-submission-text/VIDEO_STORYBOARD.md` |
+| This paste sheet | `/home/nanokat/hack/nk-forge/evidence/01-submission-text/SUBMISSION_FORM_PASTE.md` |
 
 ### Evidence pack (optional zip for judges)
 
 | Path | Contents |
 |------|----------|
-| `/home/nanokat/hack/nk-forge/evidence/screenshots/` | UI screenshots |
-| `/home/nanokat/hack/nk-forge/evidence/logs/OVERALL_TEST_DEBUG.log` | Tests + live smoke |
-| `/home/nanokat/hack/nk-forge/evidence/logs/health-live.json` | Live health JSON |
-| `/home/nanokat/hack/nk-forge/evidence/exports/20260721-grok-session/` | Scrubbed session export |
-| `/home/nanokat/hack/nk-forge/docs/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md` | Evidence dossier |
-| `/home/nanokat/hack/nk-forge/docs/SUBMISSION.md` | Submission sheet |
+| `/home/nanokat/hack/nk-forge/evidence/archive/images/product-screenshots/` | Archived UI screenshots |
+| `/home/nanokat/hack/nk-forge/evidence/03-proof/exports/20260721-grok-session/OVERALL_TEST_DEBUG.log` | Tests + live smoke |
+| `/home/nanokat/hack/nk-forge/evidence/03-proof/exports/20260721-grok-session/health-live.json` | Live health JSON |
+| `/home/nanokat/hack/nk-forge/evidence/03-proof/exports/20260721-grok-session/` | Scrubbed session export |
+| `/home/nanokat/hack/nk-forge/evidence/01-submission-text/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md` | Evidence dossier |
+| `/home/nanokat/hack/nk-forge/evidence/01-submission-text/SUBMISSION.md` | Submission sheet |
 | `/home/nanokat/hack/nk-forge/README.md` | Project README |
 
 ### Package command (creates a zip on Desktop)
@@ -211,21 +214,18 @@ Copy these into your upload folder (or zip as below).
 cd /home/nanokat/hack/nk-forge
 ZIP=~/Documents/NANOKAT-Forge-BuildWeek-upload-$(date +%Y%m%d).zip
 zip -r "$ZIP" \
-  evidence/video/nanokat-forge-build-week-demo.mp4 \
-  evidence/video/narration-jenny.mp3 \
-  evidence/video/narration-jenny.vtt \
-  evidence/VIDEO_STORYBOARD.md \
-  evidence/SUBMISSION_FORM_PASTE.md \
+  evidence/02-media/video/nanokat-forge-build-week-demo.mp4 \
+  evidence/02-media/video/narration-jenny.mp3 \
+  evidence/02-media/video/narration-jenny.vtt \
+  evidence/01-submission-text/VIDEO_STORYBOARD.md \
+  evidence/01-submission-text/SUBMISSION_FORM_PASTE.md \
+  evidence/01-submission-text/JIC_SUBMISSION_EMAIL.md \
   evidence/README.md \
-  evidence/MANIFEST.md \
-  evidence/screenshots \
-  evidence/logs \
-  evidence/exports/20260721-grok-session \
-  docs/SUBMISSION.md \
-  docs/OPENAI_BUILD_WEEK_EVIDENCE_DOSSIER.md \
+  evidence/01-submission-text/MANIFEST.md \
+  evidence/03-proof/exports/20260721-grok-session \
   README.md \
   AGENTS.md \
-  -x 'evidence/video/slides/*' -x 'evidence/video/segments/*'
+  -x 'evidence/02-media/video/_work/*'
 ls -lh "$ZIP"
 echo "Upload zip: $ZIP"
 ```
@@ -244,6 +244,6 @@ echo "Upload zip: $ZIP"
 | Field | Your value |
 |-------|------------|
 | Demo access code for judges | _give out-of-band if required; not in repo_ |
-| Codex session ID | _from Codex UI_ |
+| Primary Codex session ID | `019f6508-e856-7e80-bdc0-d132525a1a16` |
 | Your display name on form | Kumori / NANOKAT (or legal name if required) |
 | Contact email | _your form email_ |
