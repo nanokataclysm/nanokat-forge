@@ -41,7 +41,7 @@ npm run smoke   # hits FORGE_URL or the live Cloud Run URL
 
 ## Host (agents)
 
-Operator machine is a **physical MacBook Pro running Ubuntu 26.04 LTS** — not macOS.  
+Operator machine is a **physical MacBook Pro(2017 14,3) running Ubuntu 26.04 LTS** — not macOS.  
 See [`AGENTS.md`](AGENTS.md).
 
 ## Submission & evidence
