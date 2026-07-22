@@ -74,6 +74,7 @@ cd apps/orchestrator && npm test
 
 ## Evidence pointers
 
+- **Demo video (YouTube):** https://youtu.be/xooMILR0bmU
 - **Canonical pack:** [`evidence/`](..) (submission text, media, proof, archive)
 - Video script: [`VIDEO_STORYBOARD.md`](VIDEO_STORYBOARD.md)
 - This file + root `README.md` + `AGENTS.md` (Ubuntu MBP host truth)

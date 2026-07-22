@@ -150,7 +150,7 @@ Alternative proof without the token: open `/health` for the live service and mod
 ## Video description (YouTube / form caption)
 
 ```
-NANOKAT Forge — OpenAI Build Week demo (no face cam). Soft voiceover (JennyNeural) over product screenshots and narration of the live Cloud Run path: brief → Qwen plan → human approve → isolated preview. Architecture and handoffs: GPT-5.6 + Codex; live inference: Qwen. Demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app Repo: https://github.com/nanokataclysm/nanokat-forge
+NANOKAT Forge — OpenAI Build Week demo (no face cam). Soft voiceover (JennyNeural) over product screenshots and narration of the live Cloud Run path: brief → Qwen plan → human approve → isolated preview. Architecture and handoffs: GPT-5.6 + Codex; live inference: Qwen. Demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app Video: https://youtu.be/xooMILR0bmU Repo: https://github.com/nanokataclysm/nanokat-forge
 ```
 
 ## Evidence / how we used OpenAI (long form for evidence field)
@@ -197,7 +197,8 @@ Copy these into your upload folder (or zip as below).
 
 | File | Local path |
 |------|------------|
-| Demo video | `/home/nanokat/hack/nk-forge/evidence/02-media/video/nanokat-forge-build-week-demo.mp4` |
+| Demo video (YouTube) | https://youtu.be/xooMILR0bmU |
+| Demo video (local MP4) | `/home/nanokat/hack/nk-forge/evidence/02-media/video/nanokat-forge-build-week-demo.mp4` |
 | Voice-only backup | `/home/nanokat/hack/nk-forge/evidence/02-media/video/narration-jenny.mp3` |
 | Storyboard (optional PDF/text) | `/home/nanokat/hack/nk-forge/evidence/01-submission-text/VIDEO_STORYBOARD.md` |
 | This paste sheet | `/home/nanokat/hack/nk-forge/evidence/01-submission-text/SUBMISSION_FORM_PASTE.md` |
