@@ -23,6 +23,8 @@ evidence/
 | **Tag** | `buildweek-submit-freeze-20260722T012545Z` |
 | **CR revision** | `nanokat-forge-00005-bfp` (pinned) |
 | **Organizer package** | [`01-submission-text/ORGANIZER_FREEZE_PACKAGE.md`](01-submission-text/ORGANIZER_FREEZE_PACKAGE.md) |
+| **What we have now** | [`WHAT_WE_HAVE_NOW.md`](WHAT_WE_HAVE_NOW.md) |
+| **Full organizer email** | [`01-submission-text/ORGANIZER_EMAIL_FULL_NOW.md`](01-submission-text/ORGANIZER_EMAIL_FULL_NOW.md) |
 | **Organizer email** | [`01-submission-text/ORGANIZER_EMAIL_TRANSPARENT.md`](01-submission-text/ORGANIZER_EMAIL_TRANSPARENT.md) |
 | **As of** | 2026-07-21 ~6:25 PM PT (extended deadline 8:00 PM PT) |
 
