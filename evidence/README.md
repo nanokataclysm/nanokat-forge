@@ -46,11 +46,22 @@
 
 `archive/images/` preserves visual history without mixing it into the active submission package. The Forge thumbnail remains under `brand/` because it is still a current submission asset.
 
-## Live product
+## Live product & submission links
 
-- Demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app  
-- Health: https://nanokat-forge-z4l33yvnfq-uc.a.run.app/health  
-- Host note: kumori MBP = Ubuntu 26.04 LTS (see root `AGENTS.md`)
+| Item | URL / path |
+|------|------------|
+| Live demo | https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
+| Health | https://nanokat-forge-z4l33yvnfq-uc.a.run.app/health |
+| **YouTube demo** | **https://youtu.be/xooMILR0bmU** |
+| GitHub | https://github.com/nanokataclysm/nanokat-forge (public) |
+| Thumbnail | [`brand/forge-thumbnail.jpg`](brand/forge-thumbnail.jpg) |
+| Local MP4 | [`02-media/video/nanokat-forge-build-week-demo.mp4`](02-media/video/nanokat-forge-build-week-demo.mp4) |
+
+Host note: kumori MBP = Ubuntu 26.04 LTS on Apple hardware (see root `AGENTS.md`).
+
+### Multi-agent / evidence reorg
+
+If archiving or moving media: **commit deletes + new paths in one step**. Concurrent agents (Grok, Codex, aether) plus `git restore` of tracked files will re-create old trees until the reorg is committed. Prefer a single owner for `evidence/` changes.
 
 ## Host docs (repo root)
 

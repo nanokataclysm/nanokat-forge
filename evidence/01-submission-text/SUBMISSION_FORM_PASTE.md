@@ -53,6 +53,12 @@ Operator host for build/deploy: physical MacBook Pro running Ubuntu 26.04 LTS (L
 https://nanokat-forge-z4l33yvnfq-uc.a.run.app
 ```
 
+## Demo video (YouTube — paste into Devpost)
+
+```
+https://youtu.be/xooMILR0bmU
+```
+
 ## Health check (for you / judges who curl)
 
 ```

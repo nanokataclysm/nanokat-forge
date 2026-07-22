@@ -21,10 +21,11 @@ evidence/
 | 1. Devpost fields | [`01-submission-text/DEVPOST_PASTE.md`](01-submission-text/DEVPOST_PASTE.md) |
 | 2. All form paste variants | [`01-submission-text/SUBMISSION_FORM_PASTE.md`](01-submission-text/SUBMISSION_FORM_PASTE.md) |
 | 3. Backup organizer email | [`01-submission-text/JIC_SUBMISSION_EMAIL.md`](01-submission-text/JIC_SUBMISSION_EMAIL.md) |
-| 4. Demo video | [`02-media/video/nanokat-forge-build-week-demo.mp4`](02-media/video/nanokat-forge-build-week-demo.mp4) |
-| 5. Thumbnail | [`brand/forge-thumbnail.jpg`](brand/forge-thumbnail.jpg) |
-| 6. Live demo | https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
-| 7. Repo | https://github.com/nanokataclysm/nanokat-forge · branch `feat/mission-society-runtime` |
+| 4. Demo video (YouTube) | **https://youtu.be/xooMILR0bmU** |
+| 5. Local MP4 backup | [`02-media/video/nanokat-forge-build-week-demo.mp4`](02-media/video/nanokat-forge-build-week-demo.mp4) |
+| 6. Thumbnail | [`brand/forge-thumbnail.jpg`](brand/forge-thumbnail.jpg) |
+| 7. Live demo | https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
+| 8. Repo | https://github.com/nanokataclysm/nanokat-forge · branch `feat/mission-society-runtime` (public) |
 
 ## Upload zip
 

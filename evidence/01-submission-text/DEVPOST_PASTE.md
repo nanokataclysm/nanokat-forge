@@ -135,16 +135,22 @@ If the form asks for a branch:
 feat/mission-society-runtime
 ```
 
-**If the repo is private:** share access with  
-`testing@devpost.com` and `build-week-event@openai.com` before deadline.
+Repo is **public**. If it is ever private again, share with  
+`testing@devpost.com` and `build-week-event@openai.com`.
 
 ### Demo video *(required)*
 
-- Upload to **YouTube as Public** (or Unlisted only if the challenge allows — Build Week asks for **public** YouTube).
-- Length: **under 3 minutes** (ours ~1:38).
-- Must show the project and cover **how you used Codex AND GPT-5.6**.
-- Local file ready:  
+**YouTube URL (public — paste into Devpost):**
+
+```
+https://youtu.be/xooMILR0bmU
+```
+
+- Length: under 3 minutes (~1:38).
+- Covers the project and how **Codex** and **GPT-5.6** were used (process); live inference is **Qwen**.
+- Local backup file:  
   `/home/nanokat/hack/nk-forge/evidence/02-media/video/nanokat-forge-build-week-demo.mp4`
+- Thumbnail: `evidence/brand/forge-thumbnail.jpg`
 
 **YouTube title:**
 
@@ -152,13 +158,14 @@ feat/mission-society-runtime
 NANOKAT Forge — OpenAI Build Week Demo
 ```
 
-**YouTube description:**
+**YouTube description (already on the video; keep consistent):**
 
 ```
 NANOKAT Forge — human-gated website planning demo for OpenAI Build Week.
 
 Live demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app
 Repo: https://github.com/nanokataclysm/nanokat-forge
+Video: https://youtu.be/xooMILR0bmU
 
 How we used OpenAI:
 • GPT-5.6 — architecture, safety, human-approval design, handoffs, submission planning
@@ -166,10 +173,8 @@ How we used OpenAI:
 
 Live inference on the deployed service: Qwen (Alibaba Model Studio) on Google Cloud Run.
 
-Narration: soft TTS (no face cam). Screenshots and evidence in the repository under evidence/.
+Narration: soft TTS (no face cam). Evidence: github.com/nanokataclysm/nanokat-forge (evidence/)
 ```
-
-Paste the **YouTube URL** into Devpost’s video field once uploaded.
 
 ### Codex `/feedback` Session ID *(required by Build Week)*
 
@@ -210,8 +215,8 @@ New focused hackathon vertical slice (NANOKAT Forge) developed during Build Week
 - [ ] Project builds / demo URL loads (`/health` returns ok)
 - [ ] Track selected: **Developer tools**
 - [ ] Description pasted
-- [ ] **Public YouTube** video &lt; 3 min with audio mentioning **Codex and GPT-5.6**
-- [ ] Repo URL public (or shared with Devpost + OpenAI testing emails)
+- [x] **Public YouTube** https://youtu.be/xooMILR0bmU (&lt; 3 min; Codex + GPT-5.6 in narration)
+- [x] Repo URL public https://github.com/nanokataclysm/nanokat-forge
 - [ ] **Codex `/feedback` session ID** filled
 - [ ] Team invites accepted on Devpost
 - [ ] No secrets in description or screenshots

@@ -1,9 +1,11 @@
 # NANOKAT Forge — OpenAI Build Week submission sheet
 
 **Live demo:** https://nanokat-forge-z4l33yvnfq-uc.a.run.app  
+**Demo video (YouTube):** https://youtu.be/xooMILR0bmU  
 **Source root:** `/home/nanokat/hack/nk-forge`  
 **Deploy unit:** `apps/orchestrator` on Google Cloud Run  
-**Primary branch (work):** `feat/mission-society-runtime`
+**Primary branch (work):** `feat/mission-society-runtime`  
+**GitHub:** https://github.com/nanokataclysm/nanokat-forge (public)
 
 ## One-paragraph product claim (truthful)
 
@@ -43,7 +45,8 @@ cd apps/orchestrator && npm test
 |------|-----|
 | Architecture, product correction, safety review, handoffs | GPT-5.6 (ChatGPT project) |
 | Repository implementation & verification when available | Codex (Sylvia) |
-| Live model for plan generation | Qwen via DashScope |
+| Ops, Cloud Run, evidence packaging | Grok (Mira) |
+| Live model for plan generation | Qwen via DashScope (`qwen-plus`) |
 | Hosting | Google Cloud Run |
 
 ## What is shipped

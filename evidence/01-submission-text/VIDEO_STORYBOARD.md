@@ -3,6 +3,7 @@
 **Target length:** 2:00–2:45 (hard cap **3:00**)  
 **Format:** screen recording + optional face/voice; 1080p; quiet room  
 **Demo URL:** https://nanokat-forge-z4l33yvnfq-uc.a.run.app  
+**Published video:** https://youtu.be/xooMILR0bmU  
 **Access:** demo code (operator only — do not put the secret on-screen longer than needed; blur if exporting public cuts)
 
 **Tone:** calm, precise, slightly warm. No hype. No “AI built everything.”

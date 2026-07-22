@@ -24,10 +24,18 @@ If a prompt or skill says “Mac” without Ubuntu, correct to **Apple hardware 
 
 ## Product truth (hackathon slice)
 
-- Live demo: human-gated Qwen plan → approve → isolated preview on **Google Cloud Run**.
-- Runtime inference: **Qwen** (Alibaba Model Studio). Not OpenAI as the live model.
+- Live demo: human-gated Qwen plan → approve → isolated preview on **Google Cloud Run**.  
+  https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+- Demo video (YouTube): **https://youtu.be/xooMILR0bmU**
+- Runtime inference: **Qwen** (Alibaba Model Studio, `qwen-plus`). Not OpenAI as the live model.
+- Build process: GPT-5.6 architecture/handoffs · Codex implementation when available · Grok ops/evidence.
 - Signing / Mission Society multi-agent: design + handoff (`docs/handoffs/sylvia-signing.md`) — do not claim shipped unless code proves it.
-- Evidence pack: **`evidence/`** at repo root (screenshots, exports, logs, video storyboard).
+- Evidence pack: **`evidence/START_HERE.md`** (text · media · proof · brand).
+
+## Multi-agent concurrency
+
+Grok, Codex/Sylvia, and aether-routed jobs may share this tree. **Coordinate before rewriting `evidence/`.**  
+Copy-to-archive without committing deletions is undone by `git restore` / checkout of tracked paths. One owner, one atomic commit for moves.
 
 ## Security
 

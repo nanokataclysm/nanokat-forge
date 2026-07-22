@@ -4,7 +4,8 @@
 
 | Claim | Evidence |
 |-------|----------|
-| Live service exists | `logs/health-live.json` + open demo URL |
+| Live service exists | `03-proof` health capture + https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
+| Demo video published | https://youtu.be/xooMILR0bmU |
 | Human gate works | `logs/OVERALL_TEST_DEBUG.log` (409 deny / 401 unauth) |
 | Qwen powers plan | Same log (`model: qwen-plus`) + health provider string |
 | Offline tests exist | Same log (`21` tests pass) |
