@@ -1,0 +1,46 @@
+name: Demo / judge feedback
+description: Notes from trying the live Cloud Run demo or Build Week materials.
+title: "[demo] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Live demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app  
+        Evidence: `evidence/START_HERE.md`  
+        **Do not paste the demo access code into this issue if the repo is public.**
+  - type: dropdown
+    id: path
+    attributes:
+      label: What did you try?
+      options:
+        - Full plan → approve → preview
+        - Health only
+        - Evidence pack / video only
+        - Repo docs only
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: vibe
+    attributes:
+      label: Overall
+      options:
+        - Worked as expected
+        - Worked with friction
+        - Broken
+        - Unclear docs
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: What helped, what confused, what you’d change.
+    validations:
+      required: true
+  - type: input
+    id: brief
+    attributes:
+      label: Brief used (optional, no secrets)
+      placeholder: "Austin pottery studio, four pages…"
