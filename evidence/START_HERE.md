@@ -1,5 +1,21 @@
 # NANOKAT Forge — evidence pack (START HERE)
 
+## For organizers (clean draft)
+
+**Start here only:** [`for-organizers/00-READ-ME-FIRST.md`](for-organizers/00-READ-ME-FIRST.md)
+
+| | |
+|--|--|
+| Email to send | [`for-organizers/submission-email.txt`](for-organizers/submission-email.txt) |
+| Zip | `~/Documents/NANOKAT-Forge-FOR-ORGANIZERS.zip` |
+| Live | https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
+| Video | https://youtu.be/xooMILR0bmU |
+
+Older freeze/jic drafts under `01-submission-text/` are working notes. **Do not send the whole folder.**
+
+---
+
+
 Everything for OpenAI Build Week / Devpost is under this folder.
 
 ```text

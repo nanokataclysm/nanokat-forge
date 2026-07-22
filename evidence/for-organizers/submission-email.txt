@@ -1,0 +1,77 @@
+Hello OpenAI Build Week and Devpost team,
+
+This is a clean offline submission package for NANOKAT Forge.
+
+I believed Devpost had submitted my project. The page locked up / hung and did
+not actually submit what I had prepared. Your deadline was extended to 8:00 PM PT
+for site issues. I am delivering a complete package here instead of a broken
+form state. I am fine with about ~30 minutes of lateness past that extension if
+needed for a clean handoff.
+
+Please start with the curated folder in the public repo:
+  evidence/for-organizers/00-READ-ME-FIRST.md
+
+========== LINKS ==========
+
+Live demo (please judge this URL):
+https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+
+Health (expect approvalGate: session-bound):
+https://nanokat-forge-z4l33yvnfq-uc.a.run.app/health
+
+Demo video:
+https://youtu.be/xooMILR0bmU
+
+Public repository:
+https://github.com/nanokataclysm/nanokat-forge
+
+Git freeze tag:
+buildweek-submit-freeze-20260722T012545Z
+
+Cloud Run revision pinned:
+nanokat-forge-00005-bfp (100% traffic)
+
+Do not use forge.nanokat.com for judging (older Function Compute stack may still answer there).
+
+========== PROJECT ==========
+
+Project: NANOKAT Forge
+Team: Kumori / NANOKAT
+Track: Developer tools
+
+Primary Codex session: 019f6508-e856-7e80-bdc0-d132525a1a16
+Supporting Codex session: 019f7be3-39e0-7541-afc5-45074f72fb7f
+
+What it does:
+A messy small-business website brief becomes a structured Qwen plan. A human
+must approve (server session: HttpOnly cookie + plan digest + one-time nonce)
+before an isolated HTML preview is generated. No production deploy, no DNS
+change, no secrets on the preview path.
+
+Tooling disclosure:
+• GPT-5.6 — architecture, scoping, safety, handoffs, submission planning
+• Codex — implementation and verification when available
+• Grok — host ops, Cloud Run, packaging
+• Live inference — Qwen (qwen-plus) on Google Cloud Run
+
+========== PACKAGE ==========
+
+Curated for organizers only:
+  evidence/for-organizers/00-READ-ME-FIRST.md
+  evidence/for-organizers/submission-email.txt
+  evidence/for-organizers/thumbnail.jpg
+  evidence/for-organizers/demo-video.mp4
+
+Zip (same contents):
+  NANOKAT-Forge-FOR-ORGANIZERS.zip
+
+Demo access code is not in this email or the public repo. Available via an
+approved reviewer channel.
+
+Thank you for the extension and for any grace around the Devpost lockup.
+Happy to answer questions or resend any single artifact.
+
+Best regards,
+Kumori / NANOKAT
+[Your name]
+[Your Devpost account email]
