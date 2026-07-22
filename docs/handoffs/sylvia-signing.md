@@ -76,11 +76,22 @@ Never print, paste, commit, or ship `demo-signing-private.pem`.
 
 ## Integration notes
 
-- Orchestrator is testable: `createApp({...})`, `lib/preview.mjs`, `npm test` (unit suite with mock Qwen).
+- Orchestrator is testable: `createApp({...})`, `lib/preview.mjs`, `lib/approval-session.mjs`, `npm test` (unit suite with mock Qwen).
 - Prefer pure crypto helpers + unit tests (no network).
 - Keep private key out of logs, responses, and git.
 - Live Cloud Run currently uses `DASHSCOPE_*`, `DEMO_SHARED_SECRET`, `QWEN_MODEL=qwen-plus` — add signing path/secret separately; do not clobber those.
 - Default model is `qwen-plus` (free tier for `qwen3.7-plus` was exhausted).
+
+### Session-bound approval gate (landed by Mira after Sylvia handoff)
+
+Preview generation is no longer client-asserted `approved: true` alone.
+
+| Step | Behavior |
+|------|----------|
+| `POST /api/approve` | Demo token + plan → HttpOnly `nf_approval_session` cookie + one-time `nonce` + `planDigest` |
+| `POST /api/build-preview` | Demo token + cookie + same plan + nonce → digest match, nonce consume, then preview |
+
+See `apps/orchestrator/lib/approval-session.mjs`. Signing package path remains separate; Ed25519 private key never enters the browser.
 
 ---
 

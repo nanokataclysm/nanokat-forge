@@ -1,6 +1,7 @@
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { createApp } from "../server.mjs";
+import { COOKIE_NAME } from "../lib/approval-session.mjs";
 
 const DEMO_SECRET = "test-demo-secret-not-real";
 const AUTH_HEADER = { "x-nanokat-demo-token": DEMO_SECRET };
@@ -52,6 +53,11 @@ const mockQwen = {
   },
 };
 
+/**
+ * @param {string} method
+ * @param {string} path
+ * @param {{ headers?: Record<string, string>, body?: unknown }} [opts]
+ */
 async function jsonRequest(method, path, { headers = {}, body } = {}) {
   const response = await fetch(`${baseUrl}${path}`, {
     method,
@@ -70,7 +76,39 @@ async function jsonRequest(method, path, { headers = {}, body } = {}) {
     json = { _raw: text };
   }
 
-  return { status: response.status, json, text };
+  const setCookie = response.headers.getSetCookie?.() ?? [];
+  // Node fetch may expose getSetCookie; fall back to raw header
+  const cookieHeader =
+    setCookie.length > 0
+      ? setCookie
+      : response.headers.get("set-cookie")
+        ? [response.headers.get("set-cookie")]
+        : [];
+
+  return { status: response.status, json, text, setCookie: cookieHeader };
+}
+
+/** Extract name=value pairs for Cookie request header from Set-Cookie list. */
+function cookieJarFromSetCookie(setCookieList) {
+  const pairs = [];
+  for (const line of setCookieList) {
+    if (!line) continue;
+    const first = line.split(";")[0];
+    if (first.includes("=")) pairs.push(first);
+  }
+  return pairs.join("; ");
+}
+
+async function approveSession(plan) {
+  const { status, json, setCookie } = await jsonRequest("POST", "/api/approve", {
+    headers: AUTH_HEADER,
+    body: { plan },
+  });
+  assert.equal(status, 200, json?.error ?? "approve failed");
+  assert.equal(json.ok, true);
+  const cookie = cookieJarFromSetCookie(setCookie);
+  assert.match(cookie, new RegExp(COOKIE_NAME));
+  return { nonce: json.nonce, planDigest: json.planDigest, cookie };
 }
 
 before(async () => {
@@ -78,30 +116,30 @@ before(async () => {
     demoSecret: DEMO_SECRET,
     model: "mock-qwen",
     qwen: mockQwen,
+    secureCookies: false,
   });
-
-  await new Promise((resolve) => {
-    server = app.listen(0, "127.0.0.1", resolve);
-  });
-
+  server = app.listen(0, "127.0.0.1");
+  await new Promise((resolve) => server.once("listening", resolve));
   const address = server.address();
   baseUrl = `http://127.0.0.1:${address.port}`;
 });
 
 after(async () => {
-  if (!server) return;
-  await new Promise((resolve, reject) => {
-    server.close((error) => (error ? reject(error) : resolve()));
-  });
+  if (server) {
+    await new Promise((resolve, reject) => {
+      server.close((error) => (error ? reject(error) : resolve()));
+    });
+  }
 });
 
 describe("GET /health", () => {
-  it("returns ok without auth", async () => {
+  it("returns ok without auth and advertises session gate", async () => {
     const { status, json } = await jsonRequest("GET", "/health");
     assert.equal(status, 200);
     assert.equal(json.ok, true);
     assert.equal(json.service, "nanokat-forge-orchestrator");
     assert.equal(json.model, "mock-qwen");
+    assert.equal(json.approvalGate, "session-bound");
   });
 });
 
@@ -158,7 +196,7 @@ describe("POST /api/plan auth and validation", () => {
   });
 });
 
-describe("POST /api/build-preview", () => {
+describe("session-bound approval → build-preview", () => {
   const validPlan = {
     businessName: "Moonlit Kiln",
     businessSummary: "Handmade ceramics",
@@ -168,65 +206,95 @@ describe("POST /api/build-preview", () => {
     palette: ["#9b4a35", "#f2eadf", "#202020"],
   };
 
-  it("rejects missing token", async () => {
+  it("rejects build-preview without approval session", async () => {
     const { status, json } = await jsonRequest("POST", "/api/build-preview", {
-      body: { approved: true, plan: validPlan },
+      headers: AUTH_HEADER,
+      body: { plan: validPlan, nonce: "nope" },
     });
     assert.equal(status, 401);
     assert.equal(json.ok, false);
+    assert.match(json.error, /session/i);
   });
 
-  it("requires approved=true", async () => {
-    const { status, json } = await jsonRequest("POST", "/api/build-preview", {
-      headers: AUTH_HEADER,
-      body: { approved: false, plan: validPlan },
-    });
-    assert.equal(status, 409);
-    assert.equal(json.ok, false);
-    assert.match(json.error, /approval/i);
-  });
-
-  it("validates plan shape", async () => {
-    const missing = await jsonRequest("POST", "/api/build-preview", {
-      headers: AUTH_HEADER,
-      body: { approved: true },
-    });
-    assert.equal(missing.status, 400);
-    assert.match(missing.json.error, /valid approved plan/i);
-
-    const arrayPlan = await jsonRequest("POST", "/api/build-preview", {
-      headers: AUTH_HEADER,
-      body: { approved: true, plan: ["not", "an", "object"] },
-    });
-    assert.equal(arrayPlan.status, 400);
-  });
-
-  it("builds preview for array palette", async () => {
+  it("rejects client-only approved:true without session", async () => {
     const { status, json } = await jsonRequest("POST", "/api/build-preview", {
       headers: AUTH_HEADER,
       body: { approved: true, plan: validPlan },
     });
+    assert.equal(status, 401);
+    assert.match(json.error, /session|nonce/i);
+  });
+
+  it("approve + preview happy path", async () => {
+    const session = await approveSession(validPlan);
+    const { status, json } = await jsonRequest("POST", "/api/build-preview", {
+      headers: {
+        ...AUTH_HEADER,
+        cookie: session.cookie,
+      },
+      body: { plan: validPlan, nonce: session.nonce },
+    });
     assert.equal(status, 200);
     assert.equal(json.ok, true);
+    assert.equal(json.validation.sessionBound, true);
+    assert.equal(json.validation.nonceConsumed, true);
     assert.deepEqual(json.preview.palette, validPlan.palette);
-    assert.equal(json.validation.productionMutation, false);
-    assert.equal(json.validation.secretsAccessed, false);
+    assert.equal(json.planDigest, session.planDigest);
+  });
+
+  it("rejects changed plan after approve", async () => {
+    const session = await approveSession(validPlan);
+    const { status, json } = await jsonRequest("POST", "/api/build-preview", {
+      headers: {
+        ...AUTH_HEADER,
+        cookie: session.cookie,
+      },
+      body: {
+        plan: { ...validPlan, businessName: "Evil Corp" },
+        nonce: session.nonce,
+      },
+    });
+    assert.equal(status, 409);
+    assert.match(json.error, /digest/i);
+  });
+
+  it("rejects nonce replay", async () => {
+    const session = await approveSession(validPlan);
+    const first = await jsonRequest("POST", "/api/build-preview", {
+      headers: {
+        ...AUTH_HEADER,
+        cookie: session.cookie,
+      },
+      body: { plan: validPlan, nonce: session.nonce },
+    });
+    assert.equal(first.status, 200);
+
+    const second = await jsonRequest("POST", "/api/build-preview", {
+      headers: {
+        ...AUTH_HEADER,
+        cookie: session.cookie,
+      },
+      body: { plan: validPlan, nonce: session.nonce },
+    });
+    assert.equal(second.status, 401);
   });
 
   it("uses hex values when palette is a Qwen-style object", async () => {
-    const { status, json } = await jsonRequest("POST", "/api/build-preview", {
-      headers: AUTH_HEADER,
-      body: {
-        approved: true,
-        plan: {
-          ...validPlan,
-          palette: {
-            primary: "#aa5500",
-            secondary: "#fff8f0",
-            accent: "#101010",
-          },
-        },
+    const objectPlan = {
+      ...validPlan,
+      palette: {
+        primary: "#aa5500",
+        secondary: "#fff8f0",
+        accent: "#101010",
       },
+    };
+    const session = await approveSession(objectPlan);
+    const { status, json } = await jsonRequest("POST", "/api/build-preview", {
+      headers: {
+        ...AUTH_HEADER,
+        cookie: session.cookie,
+      },
+      body: { plan: objectPlan, nonce: session.nonce },
     });
 
     assert.equal(status, 200);

@@ -4,7 +4,7 @@
   "description": "NANOKAT Forge orchestrator — Qwen plan + human-gated preview",
   "main": "server.mjs",
   "scripts": {
-    "test": "node --test test/preview.test.mjs test/server.test.mjs",
+    "test": "node --test test/preview.test.mjs test/approval-session.test.mjs test/server.test.mjs",
     "start": "node server.mjs",
     "smoke": "node scripts/smoke-cli.mjs"
   },

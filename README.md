@@ -36,9 +36,10 @@ Several agents may touch this repo at once (Grok, Codex/Sylvia, aether routes). 
 
 | Method | Path | Notes |
 |--------|------|--------|
-| `GET` | `/health` | Service + model |
+| `GET` | `/health` | Service + model + `approvalGate: session-bound` |
 | `POST` | `/api/plan` | Header `x-nanokat-demo-token` + JSON `{ "brief": "..." }` |
-| `POST` | `/api/build-preview` | Same token + `{ "approved": true, "plan": { ... } }` |
+| `POST` | `/api/approve` | Demo token + `{ "plan" }` → HttpOnly session cookie + one-time `nonce` + `planDigest` |
+| `POST` | `/api/build-preview` | Demo token + session cookie + `{ "plan", "nonce" }` (client `approved: true` alone is rejected) |
 
 ## Local
 

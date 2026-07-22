@@ -16,6 +16,8 @@ const executionTrace = document.querySelector("#execution-trace");
 const previewFrame = document.querySelector("#preview-frame");
 
 let currentPlan = null;
+/** One-time approval nonce from POST /api/approve (session cookie is HttpOnly). */
+let approvalNonce = null;
 
 function text(value, fallback = "Not specified") {
   if (value === null || value === undefined || value === "") {
@@ -264,19 +266,41 @@ planButton.addEventListener("click", async () => {
 approveButton.addEventListener("click", async () => {
   if (!currentPlan) return;
 
+  const token = accessCode.value.trim();
   approveButton.disabled = true;
-  buildMessage.textContent = "Running the scoped preview builder…";
+  buildMessage.textContent = "Binding approval to a server session…";
 
   try {
-    const response = await fetch("/api/build-preview", {
+    // 1) Session-bound approval: HttpOnly cookie + one-time nonce + plan digest
+    const approveResponse = await fetch("/api/approve", {
       method: "POST",
+      credentials: "same-origin",
       headers: {
         "content-type": "application/json",
-        "x-nanokat-demo-token": accessCode.value.trim(),
+        "x-nanokat-demo-token": token,
+      },
+      body: JSON.stringify({ plan: currentPlan }),
+    });
+
+    const approvePayload = await approveResponse.json();
+    if (!approveResponse.ok || !approvePayload.ok) {
+      throw new Error(approvePayload.error ?? "Approval session failed");
+    }
+
+    approvalNonce = approvePayload.nonce;
+    buildMessage.textContent = "Running the scoped preview builder…";
+
+    // 2) Preview only with valid session cookie + matching plan + unused nonce
+    const response = await fetch("/api/build-preview", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "content-type": "application/json",
+        "x-nanokat-demo-token": token,
       },
       body: JSON.stringify({
-        approved: true,
         plan: currentPlan,
+        nonce: approvalNonce,
       }),
     });
 
@@ -286,6 +310,7 @@ approveButton.addEventListener("click", async () => {
       throw new Error(payload.error ?? "Preview build failed");
     }
 
+    approvalNonce = null;
     renderTrace(payload.trace);
     renderPreview(payload.preview);
     buildMessage.textContent = "";
@@ -299,11 +324,13 @@ approveButton.addEventListener("click", async () => {
 });
 
 reviseButton.addEventListener("click", () => {
+  approvalNonce = null;
   show(intakePanel);
 });
 
 restartButton.addEventListener("click", () => {
   currentPlan = null;
+  approvalNonce = null;
   planSummary.innerHTML = "";
   executionTrace.innerHTML = "";
   previewFrame.innerHTML = "";

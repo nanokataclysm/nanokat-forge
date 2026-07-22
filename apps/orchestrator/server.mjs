@@ -3,6 +3,13 @@ import OpenAI from "openai";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { buildPreviewFromPlan } from "./lib/preview.mjs";
+import {
+  COOKIE_NAME,
+  buildSessionCookie,
+  clearSessionCookie,
+  createApprovalStore,
+  parseCookies,
+} from "./lib/approval-session.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +27,8 @@ const requiredEnvironment = [
  *   model?: string,
  *   qwen?: { chat: { completions: { create: Function } } },
  *   publicDir?: string,
+ *   approvalStore?: ReturnType<typeof createApprovalStore>,
+ *   secureCookies?: boolean,
  * }} [options]
  */
 export function createApp(options = {}) {
@@ -29,6 +38,11 @@ export function createApp(options = {}) {
     options.model ?? process.env.QWEN_MODEL ?? "qwen-plus";
   const publicDir =
     options.publicDir ?? path.join(__dirname, "public");
+  const approvalStore = options.approvalStore ?? createApprovalStore();
+  const secureCookies =
+    options.secureCookies ??
+    (process.env.NODE_ENV === "production" ||
+      process.env.FORCE_SECURE_COOKIES === "true");
 
   const qwen =
     options.qwen ??
@@ -52,24 +66,30 @@ export function createApp(options = {}) {
     }),
   );
 
+  function requireDemoToken(request, response) {
+    const suppliedToken = request.get("x-nanokat-demo-token");
+    if (suppliedToken !== demoSecret) {
+      response.status(401).json({
+        ok: false,
+        error: "Unauthorized",
+      });
+      return false;
+    }
+    return true;
+  }
+
   app.get("/health", (_request, response) => {
     response.json({
       ok: true,
       service: "nanokat-forge-orchestrator",
       provider: "Alibaba Cloud Model Studio",
       model,
+      approvalGate: "session-bound",
     });
   });
 
   app.post("/api/plan", async (request, response) => {
-    const suppliedToken = request.get("x-nanokat-demo-token");
-
-    if (suppliedToken !== demoSecret) {
-      return response.status(401).json({
-        ok: false,
-        error: "Unauthorized",
-      });
-    }
+    if (!requireDemoToken(request, response)) return;
 
     const brief =
       typeof request.body?.brief === "string"
@@ -92,7 +112,7 @@ export function createApp(options = {}) {
       "approvalCheckpoints, validationSteps, and risks.",
       "pages must be an array of 3 to 6 short page names.",
       "palette must be an array of exactly 3 hex color strings,",
-      "for example [\"#8B5C3E\",\"#F9F5F0\",\"#3A2E26\"].",
+      'for example ["#8B5C3E","#F9F5F0","#3A2E26"].',
       "Do not claim that files were created or anything was deployed.",
     ].join(" ");
 
@@ -166,23 +186,59 @@ export function createApp(options = {}) {
     }
   });
 
-  app.post("/api/build-preview", (request, response) => {
-    const suppliedToken = request.get("x-nanokat-demo-token");
+  /**
+   * Bind human approval to a short-lived server session + one-time nonce.
+   * Sets HttpOnly SameSite cookie; client must send credentials on preview.
+   */
+  app.post("/api/approve", (request, response) => {
+    if (!requireDemoToken(request, response)) return;
 
-    if (suppliedToken !== demoSecret) {
-      return response.status(401).json({
+    const plan = request.body?.plan;
+    if (!plan || typeof plan !== "object" || Array.isArray(plan)) {
+      return response.status(400).json({
         ok: false,
-        error: "Unauthorized",
+        error: "A valid plan is required for approval",
       });
     }
 
-    const approved = request.body?.approved === true;
-    const plan = request.body?.plan;
+    const session = approvalStore.create(plan);
+    const maxAgeSec = Math.ceil(session.ttlMs / 1000);
 
-    if (!approved) {
-      return response.status(409).json({
+    response.setHeader(
+      "Set-Cookie",
+      buildSessionCookie(COOKIE_NAME, session.sessionId, {
+        maxAgeSec,
+        secure: secureCookies,
+      }),
+    );
+
+    return response.json({
+      ok: true,
+      planDigest: session.planDigest,
+      nonce: session.nonce,
+      expiresAt: new Date(session.expiresAt).toISOString(),
+      approvalGate: "session-bound",
+    });
+  });
+
+  app.post("/api/build-preview", (request, response) => {
+    if (!requireDemoToken(request, response)) return;
+
+    const plan = request.body?.plan;
+    const nonce =
+      typeof request.body?.nonce === "string"
+        ? request.body.nonce
+        : undefined;
+
+    // Client-asserted approved:true is no longer sufficient.
+    const cookies = parseCookies(request.get("cookie") ?? "");
+    const sessionId = cookies[COOKIE_NAME];
+
+    const gate = approvalStore.consume({ sessionId, plan, nonce });
+    if (!gate.ok) {
+      return response.status(gate.status).json({
         ok: false,
-        error: "Human approval is required before preview generation",
+        error: gate.error,
       });
     }
 
@@ -197,10 +253,32 @@ export function createApp(options = {}) {
       });
     }
 
+    // One-time use: clear cookie after successful consume
+    response.setHeader(
+      "Set-Cookie",
+      clearSessionCookie(COOKIE_NAME, secureCookies),
+    );
+
+    const trace = [
+      "Business brief received",
+      "Qwen generated a structured website plan",
+      "Human approval bound to server session (plan digest + one-time nonce)",
+      "Session-bound gate validated for preview",
+      "Scoped preview builder invoked",
+      "Plan constraints validated",
+      "Isolated preview rendered",
+      "No production resources changed",
+    ];
+
     return response.json({
       ok: true,
-      trace: result.trace,
-      validation: result.validation,
+      planDigest: gate.planDigest,
+      trace,
+      validation: {
+        ...result.validation,
+        sessionBound: true,
+        nonceConsumed: true,
+      },
       preview: result.preview,
     });
   });
