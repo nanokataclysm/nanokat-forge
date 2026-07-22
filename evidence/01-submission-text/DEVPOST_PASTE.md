@@ -144,7 +144,7 @@ feat/mission-society-runtime
 - Length: **under 3 minutes** (ours ~1:38).
 - Must show the project and cover **how you used Codex AND GPT-5.6**.
 - Local file ready:  
-  `/home/nanokat/hack/nk-forge/evidence/video/nanokat-forge-build-week-demo.mp4`
+  `/home/nanokat/hack/nk-forge/evidence/02-media/video/nanokat-forge-build-week-demo.mp4`
 
 **YouTube title:**
 
@@ -174,15 +174,17 @@ Paste the **YouTube URL** into Devpost’s video field once uploaded.
 ### Codex `/feedback` Session ID *(required by Build Week)*
 
 ```
-[PASTE FROM CODEX — run /feedback in the primary build thread and copy the session ID]
+019f6508-e856-7e80-bdc0-d132525a1a16
 ```
+
+Supporting Forge troubleshooting session: `019f7be3-39e0-7541-afc5-45074f72fb7f`.
 
 ### Images / gallery
 
 Upload from:
 
 ```
-/home/nanokat/hack/nk-forge/evidence/screenshots/
+/home/nanokat/hack/nk-forge/evidence/archive/images/product-screenshots/
 ```
 
 Prefer chronological `Screenshot_20260719_07*.png` and `Screenshot_20260720_*.png` as gallery covers.

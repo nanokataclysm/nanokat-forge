@@ -1,4 +1,4 @@
-# Screenshots
+# Archived product screenshots
 
 Sourced from `~/Documents/Qwen-Hack-Capture` (and mirrored `Qwen_hack_capture`).
 

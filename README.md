@@ -52,10 +52,21 @@ See [`AGENTS.md`](AGENTS.md).
 |------|------|
 | [`evidence/`](evidence/) | Full pack (text · media · proof · brand) |
 | [`evidence/01-submission-text/DEVPOST_PASTE.md`](evidence/01-submission-text/DEVPOST_PASTE.md) | Devpost field paste |
+| [`evidence/01-submission-text/SUBMISSION.md`](evidence/01-submission-text/SUBMISSION.md) | Canonical submission sheet |
+| [`evidence/01-submission-text/JIC_SUBMISSION_EMAIL.md`](evidence/01-submission-text/JIC_SUBMISSION_EMAIL.md) | Just-in-case organizer email draft |
 | [`evidence/02-media/video/`](evidence/02-media/video/) | Demo MP4 + soft VO |
+| [`evidence/archive/images/`](evidence/archive/images/) | Archived screenshots + story images |
 | [`evidence/brand/forge-thumbnail.jpg`](evidence/brand/forge-thumbnail.jpg) | Cover image |
-| [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | Submission sheet |
 | [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md) | Signing handoff (Sylvia) |
+
+## Codex build chats
+
+| Role | Session ID |
+|------|------------|
+| Primary Forge build, signing, testing, and handoff | `019f6508-e856-7e80-bdc0-d132525a1a16` |
+| Supporting Qwen / NANOKAT CLI troubleshooting | `019f7be3-39e0-7541-afc5-45074f72fb7f` |
+
+Internal guardian runs are intentionally omitted because they are not user-resumable chats.
 
 ## Not claimed (yet)
 
