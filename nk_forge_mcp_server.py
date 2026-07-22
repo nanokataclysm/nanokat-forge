@@ -36,6 +36,8 @@ MAX_FILE_BYTES = int(os.getenv("NK_MCP_MAX_FILE_BYTES", "1000000"))
 MAX_MEMORY_CHARS = int(os.getenv("NK_MCP_MAX_MEMORY_CHARS", "50000"))
 MAX_LOG_CHARS = int(os.getenv("NK_MCP_MAX_LOG_CHARS", "20000"))
 ALLOW_WRITES = os.getenv("NK_MCP_ALLOW_WRITES", "0") == "1"
+SENSITIVE_PARTS = {".git", ".ssh", ".gnupg", ".nanokat-secrets"}
+SENSITIVE_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 
 WRITE_ROOTS = tuple(
     (BASE_DIR / item.strip()).resolve()
@@ -119,6 +121,14 @@ def resolve_repo_path(relative_path: str, *, for_write: bool = False) -> Path:
         candidate.relative_to(BASE_DIR)
     except ValueError as exc:
         raise ValueError("Path escapes the NANOKAT Forge repository.") from exc
+
+    parts = {part.lower() for part in candidate.relative_to(BASE_DIR).parts}
+    if (
+        parts & SENSITIVE_PARTS
+        or any(part.startswith(".env") for part in parts)
+        or candidate.suffix.lower() in SENSITIVE_SUFFIXES
+    ):
+        raise PermissionError("Sensitive paths are blocked.")
 
     if for_write:
         if not ALLOW_WRITES:

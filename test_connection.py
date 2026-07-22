@@ -42,6 +42,7 @@ def main() -> int:
         repo.mkdir()
         (repo / "generated").mkdir()
         (repo / "README.md").write_text("NANOKAT Forge\n", encoding="utf-8")
+        (repo / ".env.local").write_text("secret\n", encoding="utf-8")
 
         os.environ["NK_FORGE_ROOT"] = str(repo)
         os.environ["NK_MCP_STATE_DIR"] = str(state)
@@ -64,6 +65,16 @@ def main() -> int:
             pass
         else:
             raise AssertionError("Path traversal was not rejected")
+
+        for sensitive_path in (".env.local", ".git/config", "keys/signing.pem"):
+            try:
+                server.read_file(sensitive_path)
+            except PermissionError:
+                pass
+            else:
+                raise AssertionError(
+                    f"Sensitive file read was not rejected: {sensitive_path}"
+                )
 
         logged = server.log_task(
             "smoke-agent",
@@ -96,6 +107,7 @@ def main() -> int:
         print("PASS: bounded file read")
         print("PASS: allowlisted file write")
         print("PASS: traversal rejection")
+        print("PASS: sensitive file rejection")
         print("PASS: SQLite and Markdown logging")
         if args.with_vector:
             print("PASS: FastEmbed and Qdrant semantic memory")
