@@ -1,1 +1,0 @@
-Qwen returns a structured plan: business summary, pages, palette, validation steps, and risks. Nothing is deployed yet.

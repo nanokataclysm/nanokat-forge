@@ -1,1 +1,0 @@
-We are not claiming multi-agent Mission Society or cryptographic package signing as shipped today. What you see is the working kernel: plan, approve, preview, prove.

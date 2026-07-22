@@ -1,1 +1,0 @@
-After approval, a scoped builder validates constraints and renders an isolated H T M L preview. No production D N S, no secret access, no site push.
