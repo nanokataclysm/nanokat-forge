@@ -1,1 +1,0 @@
-This is NANOKAT Forge — a human-gated website planning demo built during OpenAI Build Week.

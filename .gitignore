@@ -52,3 +52,7 @@ local-scratch/
 
 .venv-tts/
 evidence/video/slides/
+
+# Evidence build intermediates
+evidence/02-media/video/_work/
+evidence/video/

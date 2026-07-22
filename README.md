@@ -46,12 +46,16 @@ See [`AGENTS.md`](AGENTS.md).
 
 ## Submission & evidence
 
-| Doc | Role |
-|-----|------|
-| [`evidence/`](evidence/) | **Canonical proof root** — screenshots, exports, logs, video storyboard |
-| [`evidence/VIDEO_STORYBOARD.md`](evidence/VIDEO_STORYBOARD.md) | Shot list + spoken script (≤3 min) |
+**Start:** [`evidence/START_HERE.md`](evidence/START_HERE.md)
+
+| Path | Role |
+|------|------|
+| [`evidence/`](evidence/) | Full pack (text · media · proof · brand) |
+| [`evidence/01-submission-text/DEVPOST_PASTE.md`](evidence/01-submission-text/DEVPOST_PASTE.md) | Devpost field paste |
+| [`evidence/02-media/video/`](evidence/02-media/video/) | Demo MP4 + soft VO |
+| [`evidence/brand/forge-thumbnail.jpg`](evidence/brand/forge-thumbnail.jpg) | Cover image |
 | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | Submission sheet |
-| [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md) | Signing / receipt handoff (Sylvia) |
+| [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md) | Signing handoff (Sylvia) |
 
 ## Not claimed (yet)
 
