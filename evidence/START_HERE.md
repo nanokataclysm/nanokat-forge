@@ -14,6 +14,18 @@ evidence/
 └── archive/images/            ← historical screenshots + story images
 ```
 
+## Freeze (hand this to organizers)
+
+| Item | Value |
+|------|--------|
+| **YouTube** | https://youtu.be/xooMILR0bmU |
+| **Live demo** | https://nanokat-forge-z4l33yvnfq-uc.a.run.app |
+| **Tag** | `buildweek-submit-freeze-20260722T012545Z` |
+| **CR revision** | `nanokat-forge-00005-bfp` (pinned) |
+| **Organizer package** | [`01-submission-text/ORGANIZER_FREEZE_PACKAGE.md`](01-submission-text/ORGANIZER_FREEZE_PACKAGE.md) |
+| **Organizer email** | [`01-submission-text/ORGANIZER_EMAIL_TRANSPARENT.md`](01-submission-text/ORGANIZER_EMAIL_TRANSPARENT.md) |
+| **As of** | 2026-07-21 ~6:25 PM PT (extended deadline 8:00 PM PT) |
+
 ## Fast path (5 minutes)
 
 | Step | Open |
