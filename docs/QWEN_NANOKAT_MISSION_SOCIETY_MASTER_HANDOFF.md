@@ -2152,7 +2152,7 @@ Last synced: 2026-07-11 (skill-audit fleet: session-chapter + persona-mira on Ac
 
 ## Default load + session close (Grok · Claude · Codex)
 
-**Canonical:** [`docs/agent-default-load.md`](agent-default-load.md)
+**Canonical in the source NANOKAT monorepo:** `docs/agent-default-load.md` (not vendored into this Forge repository)
 
 - Default skill/agent benches (shared core + per-lane)
 - On-demand vs archive lists

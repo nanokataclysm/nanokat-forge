@@ -15,7 +15,7 @@
 |---------|--------|
 | Live Forge UI | Cloud Run URL |
 | Optional CLI proof | Terminal: `curl …/health` or `npm run smoke` (token not shown) |
-| Optional stills | `evidence/screenshots/` if live UI glitches |
+| Optional stills | `evidence/archive/images/product-screenshots/` if live UI glitches |
 | B-roll (optional) | `Screenshot_20260719_07*` early UI; `Screenshot_20260720_*` mid arc |
 
 ---
@@ -73,7 +73,7 @@ If short on time, **drop shot 6 and 7 visuals** — keep them spoken only.
 
 ## B-roll mapping (if live UI is slow)
 
-| Beat | Still from `evidence/screenshots/` |
+| Beat | Still from `evidence/archive/images/product-screenshots/` |
 |------|-------------------------------------|
 | Early UI | `Screenshot_20260719_071117.png` … `071405.png` |
 | Mid iteration | `Screenshot_20260720_021557.png`, `035030.png` |
@@ -89,7 +89,7 @@ If short on time, **drop shot 6 and 7 visuals** — keep them spoken only.
 - [ ] Demo token not left in a screenshot for public repo cuts
 - [ ] Captions optional; speech clear
 - [ ] Export MP4 H.264 under 3 minutes
-- [ ] Filename: `evidence/video/nanokat-forge-build-week-demo.mp4` (add when recorded)
+- [x] Filename: `evidence/02-media/video/nanokat-forge-build-week-demo.mp4`
 - [ ] Upload link + this storyboard referenced in submission form
 
 ---

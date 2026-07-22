@@ -1,4 +1,4 @@
-# Anime comedy gallery — Build Week video saga
+# Archived anime comedy gallery — Build Week video saga
 
 Comical cel-shaded panels of the trials leading to skin-of-the-teeth submission.
 
@@ -13,6 +13,8 @@ Comical cel-shaded panels of the trials leading to skin-of-the-teeth submission.
 | 07 | `07-skin-of-teeth-submit.jpg` | Guillotine deadline → SUBMIT |
 | 08 | `08-the-pack.jpg` | Treasure chest of deliverables |
 
-**Reel (slideshow “animation”):** `anime-saga-reel.mp4` (~20s)
+**Reel (slideshow “animation”):** [`../../../02-media/video/anime-saga-reel.mp4`](../../../02-media/video/anime-saga-reel.mp4) (~20s)
+
+Canonical gallery copy: [`../../../01-submission-text/INSPIRATION_AND_GALLERY.md`](../../../01-submission-text/INSPIRATION_AND_GALLERY.md).
 
 *Native image_to_video was blocked (ZDR / rate limits); reel is FFmpeg montage of the stills.*
