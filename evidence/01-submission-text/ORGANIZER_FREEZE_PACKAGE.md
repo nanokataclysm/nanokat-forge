@@ -6,6 +6,8 @@
 
 This package is what we are handing organizers **now**: the live product + evidence as frozen at this moment, with transparency about Devpost/site friction and our own late polish inside the **extended** window.
 
+**Devpost lockup:** The operator believed the page had submitted; the UI locked up / hung and **did not actually submit** the prepared materials. Offline package is intentional. Operator is **okay with ~30 minutes of lateness** past the extended 8:00 PM PT deadline if needed for this complete delivery.
+
 ---
 
 ## Status snapshot (freeze)

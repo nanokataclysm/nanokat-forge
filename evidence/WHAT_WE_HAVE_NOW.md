@@ -142,11 +142,12 @@ evidence/
 ## 6. Transparency (same story as freeze email)
 
 1. Deadline extended to **8:00 PM PT** for **organizer site issues**.  
-2. Our **Devpost submission was shut down / blocked** — offline package is intentional.  
-3. **Upload friction** — large assets prepared offline; video is on YouTube.  
-4. **Judge Cloud Run URL**, not necessarily `forge.nanokat.com` (older FC / different model string).  
-5. Work after original 5:00 PM PT and **before this freeze (~6:27 PM PT)** is included as the state we are delivering under the extended deadline.  
-6. **No further product deploys** against this freeze unless organizers request a fix.
+2. **Devpost lockup:** UI appeared to submit but hung; **nothing actually submitted** of what was prepared. Offline package is intentional.  
+3. Operator is **fine with ~30 minutes lateness** past the extended deadline if that is what clean delivery requires.  
+4. **Upload friction** — large assets prepared offline; video is on YouTube.  
+5. **Judge Cloud Run URL**, not necessarily `forge.nanokat.com` (older FC / different model string).  
+6. Work after original 5:00 PM PT and **before this freeze (~6:27 PM PT)** is included as the state under the extended window; freeze pin remains CR `00005-bfp` + tag.  
+7. **No further product deploys** against this freeze unless organizers request a fix.
 
 ---
 

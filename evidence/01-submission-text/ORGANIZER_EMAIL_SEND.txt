@@ -1,15 +1,3 @@
-# Organizer email — freeze + full current package (Devpost lockup)
-
-**Use this as the send draft.**  
-Fill `[Your name]` / `[Your Devpost account email]` at the bottom.
-
-**To:** `build-week-event@openai.com`  
-**Cc:** `testing@devpost.com`  
-**Subject:** NANOKAT Forge — offline submission after Devpost lockup (extended deadline)
-
----
-
-```text
 Hello OpenAI Build Week and Devpost team,
 
 I am sending an offline submission package for NANOKAT Forge.
@@ -104,14 +92,3 @@ Best regards,
 Kumori / NANOKAT
 [Your name]
 [Your Devpost account email]
-```
-
----
-
-## Attach if useful
-
-- This message as body  
-- Optional: `~/Documents/NANOKAT-Forge-WHAT-WE-HAVE-NOW.zip`  
-- Optional: thumbnail `evidence/brand/forge-thumbnail.jpg`  
-
-**Do not** attach `.env`, demo tokens, API keys, or private PEMs.
