@@ -29,6 +29,7 @@ apps/orchestrator/orchestrator@1.0.0
 # Editor / agent scratch
 .firecrawl/
 .qwen/
+.bob/
 .idea/
 .vscode/
 *.swp

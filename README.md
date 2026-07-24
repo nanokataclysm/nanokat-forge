@@ -28,6 +28,16 @@ Repo: https://github.com/nanokataclysm/nanokat-forge · default work branch `fea
 | Architecture / handoffs | GPT-5.6 + Codex during OpenAI Build Week |
 | Ops / evidence packaging | Grok (Mira) |
 
+## Security & Authentication
+
+### Demo Signing Key (Hackathon Only)
+
+The Ed25519 signing key at `.nanokat/keys/demo-signing-private.pem` is **demo material for hackathon purposes only**. It is properly gitignored and should never be committed.
+
+**Production authentication:** The production system uses a different authentication mechanism (not this demo key). This key is scoped exclusively to local development and the hackathon demo environment.
+
+**For contributors:** Never commit `.env*` files or private key material. The `.gitignore` covers these patterns, but exercise caution with `git add -f`.
+
 ## Multi-agent worktree note
 
 Several agents may touch this repo at once (Grok, Codex/Sylvia, aether routes). **Do not** run concurrent rewrites of `evidence/` without coordinating. A copy-to-archive without committing deletions will reappear after `git restore` / checkout of tracked paths. Prefer one owner for evidence reorgs; finish with a single commit of adds + deletes.
