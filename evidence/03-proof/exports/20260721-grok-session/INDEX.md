@@ -1,57 +1,25 @@
-# Proof pack — 2026-07-21 Grok Forge session
+# Proof pack — curated Forge evidence
 
-Curated evidence for OpenAI Build Week **inference** (what was built, by whom, and what works).
+This directory retains the minimum public-safe evidence needed to support the NANOKAT Forge demo claims. Raw agent transcripts, session metadata, workstation paths, local Git state, and operator-only provenance are intentionally excluded.
 
-## How to read this (judges / auditors)
+## Supported claims
 
-| Question | Start here |
-|----------|------------|
-| What is the live product? | `../..//SUBMISSION.md` or root `README.md` + live URL below |
-| What happened in this Grok session? | `CHAT_TRANSCRIPT.md` (user + assistant; secrets redacted) |
-| Machine-readable chat? | `chat_scrubbed.jsonl` + `PROVENANCE.json` |
-| Did tests pass? | `OVERALL_TEST_DEBUG.log` |
-| Repo state at capture? | `GIT_STATE.txt` |
-| Prior UI screenshots? | `SCREENSHOT_INVENTORY.md` → originals in `~/Documents/Qwen-Hack-Capture/` |
+1. **Human-gated plan-to-preview flow works.** The retained test and smoke log records a successful plan request, approved preview build, and `SMOKE_OK`.
+2. **Auth gates return the expected behavior.** The smoke log records `401` for an unauthenticated request and `409` when preview approval is missing.
+3. **The unit suite passes 21 tests.** The retained log records 21 passing tests with no failures, cancellations, skips, or TODOs.
+4. **Qwen palette normalization is regression-tested.** The unit output and retained palette regression check cover Qwen-style object palettes.
+5. **The UI identifies the deployed providers.** The retained homepage check shows `Google Cloud Run · Qwen`.
+6. **Screenshots are retained as external operator evidence.** The public inventories preserve filenames, byte counts, and shortened SHA-256 identifiers while the original image files remain in operator-controlled storage.
 
-## Live demo
+## Not claimed
 
-https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+- Multi-agent Mission Society is the live runtime path.
+- Signed ZIP delivery or production signing-key custody is complete.
+- GPT-5.6 is the runtime model.
 
-- Runtime inference: **Qwen** (Alibaba Cloud Model Studio), model `qwen-plus`
-- Host: **Google Cloud Run**
-- Architecture / handoffs: **GPT-5.6** + **Codex/Sylvia** when available
-- This capture session: **Grok** (ops, deploy, tests, proof export)
+## Retained files
 
-## Session provenance
-
-- Session id: `019f86d1-ccb3-7331-a41c-c526b159e162`
-- Source: `~/.grok/sessions/.../chat_history.jsonl` (SHA-256 in `PROVENANCE.json`)
-- Full copies also under:
-  - `~/Documents/Qwen-Hack-Capture/20260721-grok-forge-session/`
-  - `~/Documents/Qwen_hack_capture/20260721-grok-forge-session/`
-
-## Inference claims supported by this pack
-
-1. **Human-gated plan → preview** works end-to-end on Cloud Run (`SMOKE_OK` in log).
-2. **Auth gates** work (401 bad token, 409 without approval).
-3. **Unit suite** is offline/mockable (`21` tests pass).
-4. **Palette object** shapes from Qwen are normalized (regression in log).
-5. **UI discloses Cloud Run · Qwen** (not Function Compute).
-6. Screenshots in Documents remain external evidence of earlier UI work; inventory is linked without bloating git with multi‑MB PNGs.
-
-## Not claimed here
-
-- Multi-agent Mission Society as the live path
-- Signed ZIP / production key custody (see `docs/handoffs/sylvia-signing.md`)
-- That GPT-5.6 is the runtime model
-
-## File list
-
-- `INDEX.md` — this file
-- `CHAT_TRANSCRIPT.md` — readable export
-- `chat_scrubbed.jsonl` — full scrubbed message stream
-- `PROVENANCE.json` — ids, hashes, counts
-- `summary.json` — Grok session summary
-- `OVERALL_TEST_DEBUG.log` — tests + live smoke + regressions
-- `GIT_STATE.txt` — branch/log/status at capture
-- `SCREENSHOT_INVENTORY.md` / `.json` — Documents screenshot index
+- `INDEX.md` — this curated public-safe index.
+- `OVERALL_TEST_DEBUG.log` — unit-test, smoke-test, provider-disclosure, and palette-regression output.
+- `SCREENSHOT_INVENTORY.md` — human-readable inventory of externally retained screenshots.
+- `SCREENSHOT_INVENTORY.json` — machine-readable inventory of externally retained screenshots.
