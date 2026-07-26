@@ -1,100 +1,83 @@
 # NANOKAT Forge
 
-Human-gated website **plan + preview** for small-business briefs.
+NANOKAT Forge is a **human-approved website planning and preview system** built for small-business briefs.
 
-## What ships now
+This repository is the public, historical implementation and evidence archive from the 2026 hackathon cycle. Active product development continues privately under **Solforge** so operational infrastructure, credentials, client work, and unfinished experiments are not mixed into the public record.
 
-1. Demo access code gates the API.
-2. **Qwen** (Alibaba Cloud Model Studio) turns a brief into a structured website plan.
-3. A human must approve before preview generation.
-4. A scoped endpoint validates the plan and returns an **isolated HTML preview** — no production deploy, DNS change, or secret access.
+## What the public demo does
 
-Live demo (Cloud Run):
+1. A demo access code gates the API.
+2. Qwen turns a business brief into a structured website plan.
+3. A human explicitly approves the plan.
+4. A scoped endpoint validates it and returns an isolated HTML preview.
 
-https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+The demo does **not** deploy a production website, change DNS, or access operator secrets.
 
-Demo video (YouTube, public):
+- Live demo: https://nanokat-forge-z4l33yvnfq-uc.a.run.app
+- Demo video: https://youtu.be/xooMILR0bmU
+- Curated evidence: [`evidence/START_HERE.md`](evidence/START_HERE.md)
 
-https://youtu.be/xooMILR0bmU
-
-Repo: https://github.com/nanokataclysm/nanokat-forge · default work branch `feat/mission-society-runtime` (also on `main` for community templates).
-
-## Runtime truth
+## Runtime
 
 | Layer | Provider |
-|--------|----------|
-| Inference | Qwen via DashScope compatible API (`qwen-plus` on Cloud Run) |
-| Host | Google Cloud Run (`apps/orchestrator`) |
-| Architecture / handoffs | GPT-5.6 + Codex during OpenAI Build Week |
-| Ops / evidence packaging | Grok (Mira) |
-
-## Security & Authentication
-
-### Demo Signing Key (Hackathon Only)
-
-The Ed25519 signing key at `.nanokat/keys/demo-signing-private.pem` is **demo material for hackathon purposes only**. It is properly gitignored and should never be committed.
-
-**Production authentication:** The production system uses a different authentication mechanism (not this demo key). This key is scoped exclusively to local development and the hackathon demo environment.
-
-**For contributors:** Never commit `.env*` files or private key material. The `.gitignore` covers these patterns, but exercise caution with `git add -f`.
-
-## Multi-agent worktree note
-
-Several agents may touch this repo at once (Grok, Codex/Sylvia, aether routes). **Do not** run concurrent rewrites of `evidence/` without coordinating. A copy-to-archive without committing deletions will reappear after `git restore` / checkout of tracked paths. Prefer one owner for evidence reorgs; finish with a single commit of adds + deletes.
+|---|---|
+| Inference | Qwen through the DashScope-compatible API |
+| Hosting | Google Cloud Run |
+| Application | Node.js orchestrator under `apps/orchestrator` |
+| Approval boundary | Session-bound approval, nonce, and plan digest |
 
 ## API
 
-| Method | Path | Notes |
-|--------|------|--------|
-| `GET` | `/health` | Service + model + `approvalGate: session-bound` |
-| `POST` | `/api/plan` | Header `x-nanokat-demo-token` + JSON `{ "brief": "..." }` |
-| `POST` | `/api/approve` | Demo token + `{ "plan" }` → HttpOnly session cookie + one-time `nonce` + `planDigest` |
-| `POST` | `/api/build-preview` | Demo token + session cookie + `{ "plan", "nonce" }` (client `approved: true` alone is rejected) |
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/health` | Service and approval-gate status |
+| `POST` | `/api/plan` | Convert a brief into a structured plan |
+| `POST` | `/api/approve` | Bind human approval to the plan |
+| `POST` | `/api/build-preview` | Return an isolated preview after approval |
 
-## Local
+## Local development
 
 ```bash
 cd apps/orchestrator
-# export DASHSCOPE_API_KEY DASHSCOPE_BASE_URL DEMO_SHARED_SECRET QWEN_MODEL=qwen-plus
+# Set required values outside Git. Never commit .env files.
 npm start
 npm test
-npm run smoke   # hits FORGE_URL or the live Cloud Run URL
+npm run smoke
 ```
 
-## Host (agents)
+See `.env.example` for variable names. Real credentials and private key material must remain outside the repository.
 
-Operator machine is a **physical MacBook Pro(2017 14,3) running Ubuntu 26.04 LTS** — not macOS.  
-See [`AGENTS.md`](AGENTS.md).
+## Security posture
 
-## Submission & evidence
+- No production credentials belong in this repository.
+- `.env*`, private keys, operator state, and agent scratch are ignored.
+- Demo signing material is hackathon-only and is not the production authentication model.
+- Public evidence is curated; raw agent chat exports and workstation context are intentionally excluded.
+- Production, DNS, secret, and client-data operations require separate operator approval and private infrastructure.
 
-**Start:** [`evidence/START_HERE.md`](evidence/START_HERE.md)
+Security reports: [`.github/SECURITY.md`](.github/SECURITY.md)
 
-| Path | Role |
-|------|------|
-| [`evidence/`](evidence/) | Full pack (text · media · proof · brand) |
-| [`evidence/01-submission-text/DEVPOST_PASTE.md`](evidence/01-submission-text/DEVPOST_PASTE.md) | Devpost field paste |
-| [`evidence/01-submission-text/SUBMISSION.md`](evidence/01-submission-text/SUBMISSION.md) | Canonical submission sheet |
-| [`evidence/01-submission-text/JIC_SUBMISSION_EMAIL.md`](evidence/01-submission-text/JIC_SUBMISSION_EMAIL.md) | Just-in-case organizer email draft |
-| [`evidence/02-media/video/`](evidence/02-media/video/) | Local demo MP4 + soft VO |
-| **Demo video (YouTube)** | https://youtu.be/xooMILR0bmU |
-| [`evidence/archive/images/`](evidence/archive/images/) | Archived screenshots + story images |
-| [`evidence/brand/forge-thumbnail.jpg`](evidence/brand/forge-thumbnail.jpg) | Cover image (Nexus Dark) |
-| [`docs/handoffs/sylvia-signing.md`](docs/handoffs/sylvia-signing.md) | Signing handoff (Sylvia) |
+## Repository boundary
 
-## Codex build chats
+This repository contains:
 
-| Role | Session ID |
-|------|------------|
-| Primary Forge build, signing, testing, and handoff | `019f6508-e856-7e80-bdc0-d132525a1a16` |
-| Supporting Qwen / NANOKAT CLI troubleshooting | `019f7be3-39e0-7541-afc5-45074f72fb7f` |
+- the public Forge demo implementation;
+- tests and public-safe technical documentation;
+- curated hackathon evidence and media;
+- community contribution and security guidance.
 
-Internal guardian runs are intentionally omitted because they are not user-resumable chats.
+This repository does **not** contain:
 
-## Not claimed (yet)
+- active Solforge product development;
+- the private NANOKAT monorepo;
+- client source, private copy, or client data;
+- deployment credentials, DNS state, or recovery materials;
+- raw agent transcripts, local paths, or operator-machine inventories.
 
-- Multi-agent Mission Society council as the live path
-- Signed ZIP / cryptographic receipts as shipped product (in progress — handoff above)
-- Persistent client preference memory or full site generation deploy
+## Status
 
-Those remain architecture/spec under `docs/`.
+The public demo remains a historical, reproducible snapshot. Future product claims should be made from the active Solforge repository only after that surface is deliberately prepared for publication.
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).

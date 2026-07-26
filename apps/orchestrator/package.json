@@ -1,16 +1,17 @@
 {
-  "name": "orchestrator",
+  "name": "nanokat-forge-orchestrator",
   "version": "1.0.0",
-  "description": "NANOKAT Forge orchestrator — Qwen plan + human-gated preview",
+  "private": true,
+  "description": "NANOKAT Forge orchestrator — Qwen planning with a human-approved preview gate",
   "main": "server.mjs",
   "scripts": {
     "test": "node --test test/preview.test.mjs test/approval-session.test.mjs test/server.test.mjs",
     "start": "node server.mjs",
     "smoke": "node scripts/smoke-cli.mjs"
   },
-  "keywords": ["nanokat", "forge", "qwen"],
+  "keywords": ["nanokat", "forge", "qwen", "human-in-the-loop"],
   "author": "NANOKAT",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": ">=20"
   },
