@@ -74,8 +74,6 @@ This repository does **not** contain:
 - deployment credentials, DNS state, or recovery materials;
 - raw agent transcripts, local paths, or operator-machine inventories.
 
-The detailed placement rules are in [`docs/REPOSITORY_BOUNDARIES.md`](docs/REPOSITORY_BOUNDARIES.md).
-
 ## Status
 
 The public demo remains a historical, reproducible snapshot. Future product claims should be made from the active Solforge repository only after that surface is deliberately prepared for publication.
